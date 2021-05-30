@@ -1,8 +1,6 @@
-using BottomTimeApi.Data;
-using BottomTimeApi.DataAccess;
+using BottomTimeApi.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,19 +8,15 @@ using Microsoft.OpenApi.Models;
 
 namespace BottomTimeApi {
 	public class Startup {
-		public IConfiguration Configuration { get; }
+		private readonly IConfiguration _config;
 
-		public Startup(IConfiguration configuration) {
-			Configuration = configuration;
+		public Startup(IConfiguration config) {
+			_config = config;
 		}
 
 		public void ConfigureServices(IServiceCollection services) {
-			string sqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
-			services.AddDbContext<DataContext>(opt => opt.UseNpgsql(sqlConnectionString));
-			services.AddScoped<IDiveRepository, DiveRepository>();
-
+			services.AddApplicationServices(_config);
 			services.AddControllers();
-
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "BottomTimeApi", Version = "v1" });
 			});

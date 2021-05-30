@@ -1,7 +1,7 @@
 ﻿using BottomTimeApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BottomTimeApi.Data {
+namespace BottomTimeApi.DataAccess {
 	public class DataContext : DbContext {
 		public DbSet<Dive> Dives { get; set; }
 

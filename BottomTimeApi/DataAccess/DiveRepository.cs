@@ -1,5 +1,4 @@
-﻿using BottomTimeApi.Data;
-using BottomTimeApi.Models;
+﻿using BottomTimeApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
