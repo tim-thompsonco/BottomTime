@@ -41,7 +41,11 @@ namespace BottomTimeApi.Controllers {
 
 		// PUT: api/dives/5
 		[HttpPut("{id}")]
-		public async Task<ActionResult<Dive>> UpdateDive(Dive dive) {
+		public async Task<ActionResult<Dive>> UpdateDive(int id, Dive dive) {
+			if (id != dive.Id) {
+				return BadRequest();
+			}
+
 			await _diveRepository.UpdateDiveAsync(dive);
 
 			return NoContent();
