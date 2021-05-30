@@ -11,7 +11,7 @@ namespace BottomTimeApi.Extensions {
 			services.AddDbContext<DataContext>(options => {
 				string sqlConnectionString = config.GetConnectionString("DefaultConnection");
 				options.UseNpgsql(sqlConnectionString);
-				options.UseLowerCaseNamingConvention();
+				options.UseSnakeCaseNamingConvention();
 			});
 
 			return services;
