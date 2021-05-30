@@ -1,42 +1,42 @@
-﻿using BottomTimeApi.Data;
+﻿using BottomTimeApi.DataAccess;
 using BottomTimeApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BottomTimeApi.Controllers {
 	[Route("api/dives")]
 	[ApiController]
 	public class DiveController : ControllerBase {
-		private readonly DiveDataContext _context;
+		private readonly IDiveRepository _diveRepository;
 
-		public DiveController(DiveDataContext context) {
-			_context = context;
+		public DiveController(IDiveRepository diveRepository) {
+			_diveRepository = diveRepository;
 		}
 
 		// GET: api/dives
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Dive>>> GetAllDives() {
-			return await _context.Dives.ToListAsync();
+		public async Task<ActionResult<List<Dive>>> GetDives() {
+			IEnumerable<Dive> dives = await _diveRepository.GetDivesAsync();
+
+			return Ok(dives.ToList());
 		}
 
 		// GET: api/dives/5
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Dive>> GetSingleDive(int id) {
-			Dive dive = await _context.Dives.FindAsync(id);
+		public async Task<ActionResult<Dive>> GetDiveById(int id) {
+			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
 
-			return dive == null ? NotFound() : (ActionResult<Dive>)dive;
+			return dive == null ? NotFound() : Ok(dive);
 		}
 
 		// POST: api/dives
 		[HttpPost]
-		public async Task<ActionResult<Dive>> PostDive(Dive dive) {
-			_context.Dives.Add(dive);
+		public async Task<ActionResult<Dive>> AddDive(Dive dive) {
+			await _diveRepository.AddDiveAsync(dive);
 
-			await _context.SaveChangesAsync();
-
-			return CreatedAtAction(nameof(GetSingleDive), new { id = dive.Id }, dive);
+			return Ok(dive);
 		}
 	}
 }

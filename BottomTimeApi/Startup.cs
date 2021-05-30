@@ -1,4 +1,5 @@
 using BottomTimeApi.Data;
+using BottomTimeApi.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,12 @@ namespace BottomTimeApi {
 		}
 
 		public void ConfigureServices(IServiceCollection services) {
-			services.AddDbContext<DiveDataContext>(opt => opt.UseInMemoryDatabase("BottomTimeApi"));
+			string sqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
+			services.AddDbContext<DataContext>(opt => opt.UseNpgsql(sqlConnectionString));
+			services.AddScoped<IDiveRepository, DiveRepository>();
+
 			services.AddControllers();
+
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "BottomTimeApi", Version = "v1" });
 			});
