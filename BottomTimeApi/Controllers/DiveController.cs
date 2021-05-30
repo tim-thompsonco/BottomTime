@@ -23,6 +23,14 @@ namespace BottomTimeApi.Controllers {
 			return Ok(dives.ToList());
 		}
 
+		// POST: api/dives
+		[HttpPost]
+		public async Task<ActionResult<Dive>> AddDive(Dive dive) {
+			await _diveRepository.AddDiveAsync(dive);
+
+			return CreatedAtAction(nameof(AddDive), new { id = dive.Id }, dive);
+		}
+
 		// GET: api/dives/5
 		[HttpGet("{id}")]
 		public async Task<ActionResult<Dive>> GetDiveById(int id) {
@@ -31,12 +39,25 @@ namespace BottomTimeApi.Controllers {
 			return dive == null ? NotFound() : Ok(dive);
 		}
 
-		// POST: api/dives
-		[HttpPost]
-		public async Task<ActionResult<Dive>> AddDive(Dive dive) {
-			await _diveRepository.AddDiveAsync(dive);
+		// PUT: api/dives/5
+		[HttpPut("{id}")]
+		public async Task<ActionResult<Dive>> UpdateDive(Dive dive) {
+			await _diveRepository.UpdateDiveAsync(dive);
 
-			return Ok(dive);
+			return NoContent();
+		}
+
+		// DELETE: api/dives/5
+		[HttpDelete("{id}")]
+		public async Task<ActionResult<Dive>> DeleteDiveById(int id) {
+			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
+			if (dive == null) {
+				return NotFound();
+			}
+
+			await _diveRepository.DeleteDiveAsync(dive);
+
+			return NoContent();
 		}
 	}
 }
