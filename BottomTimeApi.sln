@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C07B48B7-886D-4616-9260-94545EE0F3F2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.travis.yml = .travis.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BottomTimeApiTests", "BottomTimeApiTests\BottomTimeApiTests.csproj", "{5FE87E55-1616-4469-ACFA-6AC175F0A7EB}"
