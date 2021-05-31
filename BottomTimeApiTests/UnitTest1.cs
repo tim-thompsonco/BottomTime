@@ -5,9 +5,9 @@ namespace BottomTimeApiTests {
 	public class UnitTest1 {
 		[TestMethod]
 		public void TestMethod1() {
-			const int testShouldFail = 2 + 2;
+			const int testShouldPass = 2 + 2;
 
-			Assert.AreEqual(5, testShouldFail);
+			Assert.AreEqual(4, testShouldPass);
 		}
 	}
 }
