@@ -2,6 +2,7 @@ using BottomTimeApi.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BottomTimeApi.Extensions {
 	public static class ApplicationServiceExtensions {
@@ -9,8 +10,10 @@ namespace BottomTimeApi.Extensions {
 			this IServiceCollection services, IConfiguration config) {
 			services.AddScoped<IDiveRepository, DiveRepository>();
 			services.AddDbContext<DataContext>(options => {
-				string sqlConnectionString = config.GetConnectionString("DefaultConnection");
-				options.UseNpgsql(sqlConnectionString);
+				string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+				string connString = env == "Development" ? config.GetConnectionString("DefaultConnection")
+					: Environment.GetEnvironmentVariable("DATABASE_URL");
+				options.UseNpgsql(connString);
 				options.UseSnakeCaseNamingConvention();
 			});
 
