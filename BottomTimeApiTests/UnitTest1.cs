@@ -9,5 +9,12 @@ namespace BottomTimeApiTests {
 
 			Assert.AreEqual(4, testShouldPass);
 		}
+
+		[TestMethod]
+		public void TestMethodCICD() {
+			const int testShouldPass = 3 + 3;
+
+			Assert.AreEqual(6, testShouldPass);
+		}
 	}
 }
