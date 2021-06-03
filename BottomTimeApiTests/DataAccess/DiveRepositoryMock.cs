@@ -16,8 +16,8 @@ namespace BottomTimeApiTests.DataAccess {
 			};
 		}
 
-		public Task AddDiveAsync(Dive dive) {
-			throw new NotImplementedException();
+		public async Task AddDiveAsync(Dive dive) {
+			TestDives.Add(dive);
 		}
 
 		public Task DeleteDiveAsync(Dive dive) {

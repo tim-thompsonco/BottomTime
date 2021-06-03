@@ -40,5 +40,20 @@ namespace BottomTimeApiTests.Controllers {
 			Assert.IsTrue(testValue.Id is 2);
 			Assert.IsTrue(testValue.DiveSite is "Test site two");
 		}
+
+		[TestMethod]
+		public async Task AddDiveUnitTestAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository);
+			Dive dive = new Dive { Id = 3, DiveSite = "A third dive site" };
+
+			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(dive);
+			CreatedAtActionResult testResponse = testActionResult.Result as CreatedAtActionResult;
+			Dive testValue = testResponse.Value as Dive;
+
+			Assert.IsNotNull(testResponse);
+			Assert.AreEqual(repository.TestDives[2].Id, testValue.Id);
+			Assert.AreEqual(repository.TestDives[2].DiveSite, testValue.DiveSite);
+		}
 	}
 }
