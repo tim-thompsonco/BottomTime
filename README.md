@@ -3,6 +3,8 @@
 
 <h2>Build Pipeline</h2>
 <p>Acceptance environment points to https://bottomtimeapi-acc.herokuapp.com/swagger/index.html.</p>
+<p>Production environment points to https://bottomtimeapi-prod.herokuapp.com/swagger/index.html.</p>
+<p>All code changes are merged from development into acceptance, and tested first, prior to merging acceptance into production to avoid downtime from breaking changes.</p>
 
 <h2>Built With</h2>
   <ul>
