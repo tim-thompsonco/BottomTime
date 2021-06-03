@@ -1,6 +1,7 @@
 ﻿using BottomTimeApi.DataAccess;
 using BottomTimeApi.Models;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,26 +16,36 @@ namespace BottomTimeApiTests.DataAccess {
 			};
 		}
 
-		public async Task AddDiveAsync(Dive dive) {
+		public Task AddDiveAsync(Dive dive) {
 			TestDives.Add(dive);
+
+			return Task.CompletedTask;
 		}
 
-		public async Task DeleteDiveAsync(Dive dive) {
+		public Task DeleteDiveAsync(Dive dive) {
 			TestDives.Remove(dive);
+
+			return Task.CompletedTask;
 		}
 
-		public async Task<Dive> GetDiveByIdAsync(int id) {
-			return TestDives.FirstOrDefault(d => d.Id == id);
+		public Task<Dive> GetDiveByIdAsync(int id) {
+			return Task.FromResult(TestDives.FirstOrDefault(d => d.Id == id));
 		}
 
 		public async Task<IEnumerable<Dive>> GetDivesAsync() {
 			return TestDives;
 		}
 
-		public async Task UpdateDiveAsync(Dive dive) {
-			Dive diveToUpdate = TestDives.First(d => d.Id == dive.Id);
+		public Task UpdateDiveAsync(Dive dive) {
+			int indexDiveToUpdate = TestDives.FindIndex(d => d.Id == dive.Id);
 
-			diveToUpdate = dive;
+			if (indexDiveToUpdate == -1) {
+				throw new DBConcurrencyException("Expected to modify 1 record but modified 0 records.");
+			}
+
+			TestDives[indexDiveToUpdate] = dive;
+
+			return Task.CompletedTask;
 		}
 	}
 }
