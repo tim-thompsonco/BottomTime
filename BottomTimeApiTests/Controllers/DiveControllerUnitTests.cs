@@ -27,7 +27,7 @@ namespace BottomTimeApiTests.Controllers {
 		}
 
 		[TestMethod]
-		public async Task GetDiveByIdUnitTestAsync() {
+		public async Task GetDiveByIdUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
 			const int diveId = 2;
@@ -39,6 +39,17 @@ namespace BottomTimeApiTests.Controllers {
 			Assert.IsNotNull(testResponse);
 			Assert.IsTrue(testValue.Id is 2);
 			Assert.IsTrue(testValue.DiveSite is "Test site two");
+		}
+
+		[TestMethod]
+		public async Task GetDiveByIdUnitTestFailsAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository);
+			const int nonExistentDiveId = 5;
+
+			ActionResult<Dive> testActionResult = await controller.GetDiveByIdAsync(nonExistentDiveId);
+
+			Assert.IsTrue(testActionResult.Result is NotFoundResult);
 		}
 
 		[TestMethod]
@@ -54,6 +65,56 @@ namespace BottomTimeApiTests.Controllers {
 			Assert.IsNotNull(testResponse);
 			Assert.AreEqual(repository.TestDives[2].Id, testValue.Id);
 			Assert.AreEqual(repository.TestDives[2].DiveSite, testValue.DiveSite);
+		}
+
+		[TestMethod]
+		public async Task UpdateDiveUnitTestSucceedsAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository);
+			Dive updatedDive = new Dive { Id = 2, DiveSite = "Updated dive site" };
+
+			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
+
+			Assert.IsTrue(testActionResult.Result is NoContentResult);
+			Assert.AreEqual(repository.TestDives[1].Id, updatedDive.Id);
+			Assert.AreEqual(repository.TestDives[1].DiveSite, updatedDive.DiveSite);
+		}
+
+		[TestMethod]
+		public async Task UpdateDiveUnitTestFailsAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository);
+			Dive updatedDive = new Dive { Id = 2, DiveSite = "Updated dive site" };
+			const int notMatchingId = 3;
+
+			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(notMatchingId, updatedDive);
+
+			Assert.IsTrue(testActionResult.Result is BadRequestResult);
+			Assert.AreEqual(repository.TestDives[1].Id, updatedDive.Id);
+			Assert.AreEqual(repository.TestDives[1].DiveSite, updatedDive.DiveSite);
+		}
+
+		public async Task DeleteDiveUnitTestSucceedsAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository);
+			const int idToDelete = 2;
+
+			ActionResult<Dive> testActionResult = await controller.DeleteDiveByIdAsync(idToDelete);
+
+			Assert.IsTrue(testActionResult.Result is NoContentResult);
+			Assert.IsTrue(repository.TestDives.Count is 1);
+			Assert.IsTrue(repository.TestDives[0].Id != idToDelete);
+		}
+
+		[TestMethod]
+		public async Task DeleteDiveUnitTestFailsAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository);
+			const int nonExistentDiveId = 5;
+
+			ActionResult<Dive> testActionResult = await controller.DeleteDiveByIdAsync(nonExistentDiveId);
+
+			Assert.IsTrue(testActionResult.Result is NotFoundResult);
 		}
 	}
 }

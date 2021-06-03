@@ -1,6 +1,5 @@
 ﻿using BottomTimeApi.DataAccess;
 using BottomTimeApi.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,20 +19,22 @@ namespace BottomTimeApiTests.DataAccess {
 			TestDives.Add(dive);
 		}
 
-		public Task DeleteDiveAsync(Dive dive) {
-			throw new NotImplementedException();
+		public async Task DeleteDiveAsync(Dive dive) {
+			TestDives.Remove(dive);
 		}
 
 		public async Task<Dive> GetDiveByIdAsync(int id) {
-			return TestDives.Single(d => d.Id == id);
+			return TestDives.FirstOrDefault(d => d.Id == id);
 		}
 
 		public async Task<IEnumerable<Dive>> GetDivesAsync() {
 			return TestDives;
 		}
 
-		public Task UpdateDiveAsync(Dive dive) {
-			throw new NotImplementedException();
+		public async Task UpdateDiveAsync(Dive dive) {
+			Dive diveToUpdate = TestDives.First(d => d.Id == dive.Id);
+
+			diveToUpdate = dive;
 		}
 	}
 }
