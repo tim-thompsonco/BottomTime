@@ -2,6 +2,7 @@
 using BottomTimeApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BottomTimeApiTests.DataAccess {
@@ -23,8 +24,8 @@ namespace BottomTimeApiTests.DataAccess {
 			throw new NotImplementedException();
 		}
 
-		public Task<Dive> GetDiveByIdAsync(int id) {
-			throw new NotImplementedException();
+		public async Task<Dive> GetDiveByIdAsync(int id) {
+			return TestDives.Single(d => d.Id == id);
 		}
 
 		public async Task<IEnumerable<Dive>> GetDivesAsync() {
