@@ -17,7 +17,7 @@ namespace BottomTimeApi.Controllers {
 
 		// GET: api/dives
 		[HttpGet]
-		public async Task<ActionResult<List<Dive>>> GetDives() {
+		public async Task<ActionResult<List<Dive>>> GetDivesAsync() {
 			IEnumerable<Dive> dives = await _diveRepository.GetDivesAsync();
 
 			return Ok(dives.ToList());
@@ -25,15 +25,15 @@ namespace BottomTimeApi.Controllers {
 
 		// POST: api/dives
 		[HttpPost]
-		public async Task<ActionResult<Dive>> AddDive(Dive dive) {
+		public async Task<ActionResult<Dive>> AddDiveAsync(Dive dive) {
 			await _diveRepository.AddDiveAsync(dive);
 
-			return CreatedAtAction(nameof(AddDive), new { id = dive.Id }, dive);
+			return CreatedAtAction(nameof(AddDiveAsync), new { id = dive.Id }, dive);
 		}
 
 		// GET: api/dives/5
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Dive>> GetDiveById(int id) {
+		public async Task<ActionResult<Dive>> GetDiveByIdAsync(int id) {
 			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
 
 			return dive == null ? NotFound() : Ok(dive);
@@ -41,7 +41,7 @@ namespace BottomTimeApi.Controllers {
 
 		// PUT: api/dives/5
 		[HttpPut("{id}")]
-		public async Task<ActionResult<Dive>> UpdateDive(int id, Dive dive) {
+		public async Task<ActionResult<Dive>> UpdateDiveAsync(int id, Dive dive) {
 			if (id != dive.Id) {
 				return BadRequest();
 			}
@@ -53,7 +53,7 @@ namespace BottomTimeApi.Controllers {
 
 		// DELETE: api/dives/5
 		[HttpDelete("{id}")]
-		public async Task<ActionResult<Dive>> DeleteDiveById(int id) {
+		public async Task<ActionResult<Dive>> DeleteDiveByIdAsync(int id) {
 			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
 			if (dive == null) {
 				return NotFound();
