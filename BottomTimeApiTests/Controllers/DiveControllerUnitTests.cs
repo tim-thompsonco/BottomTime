@@ -60,7 +60,7 @@ namespace BottomTimeApiTests.Controllers {
 			Dive dive = new Dive { Id = 3, DiveSite = "A third dive site" };
 
 			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(dive);
-			CreatedAtActionResult testResponse = testActionResult.Result as CreatedAtActionResult;
+			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
 			Dive testValue = testResponse.Value as Dive;
 
 			Assert.IsNotNull(testResponse);
