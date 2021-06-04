@@ -28,11 +28,11 @@ namespace BottomTimeApi.Controllers {
 		public async Task<ActionResult<Dive>> AddDiveAsync(Dive dive) {
 			await _diveRepository.AddDiveAsync(dive);
 
-			return CreatedAtAction(nameof(AddDiveAsync), new { id = dive.Id }, dive);
+			return CreatedAtRoute("GetDiveById", new { id = dive.Id }, dive);
 		}
 
 		// GET: api/dives/5
-		[HttpGet("{id}")]
+		[HttpGet("{id}", Name = "GetDiveById")]
 		public async Task<ActionResult<Dive>> GetDiveByIdAsync(int id) {
 			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
 
