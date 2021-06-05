@@ -28,7 +28,9 @@ namespace BottomTimeApi.Controllers {
 		// POST: api/dives
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
-		public async Task<ActionResult<Dive>> AddDiveAsync(Dive dive) {
+		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
+			Dive dive = new Dive { DiveSite = diveDto.DiveSite };
+
 			await _diveRepository.AddDiveAsync(dive);
 
 			return CreatedAtRoute("GetDiveById", new { id = dive.Id }, dive);
