@@ -57,9 +57,9 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task AddDiveUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive dive = new Dive { Id = 3, DiveSite = "A third dive site" };
+			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site" };
 
-			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(dive);
+			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
 			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
 			Dive testValue = testResponse.Value as Dive;
 
