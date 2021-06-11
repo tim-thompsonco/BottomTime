@@ -11,8 +11,8 @@ namespace BottomTimeApiTests.DataAccess {
 
 		public DiveRepositoryMock() {
 			TestDives = new List<Dive> {
-				new Dive{Id=1, DiveSite = "Test site one"},
-				new Dive{Id=2, DiveSite = "Test site two"}
+				new Dive{Number=1, DiveSite = "Test site one"},
+				new Dive{Number=2, DiveSite = "Test site two"}
 			};
 		}
 
@@ -28,8 +28,8 @@ namespace BottomTimeApiTests.DataAccess {
 			return Task.CompletedTask;
 		}
 
-		public Task<Dive> GetDiveByIdAsync(int id) {
-			return Task.FromResult(TestDives.FirstOrDefault(d => d.Id == id));
+		public Task<Dive> GetDiveByDiveNumberAsync(int number) {
+			return Task.FromResult(TestDives.FirstOrDefault(d => d.Number == number));
 		}
 
 		public async Task<IEnumerable<Dive>> GetDivesAsync() {
@@ -37,7 +37,7 @@ namespace BottomTimeApiTests.DataAccess {
 		}
 
 		public Task UpdateDiveAsync(Dive dive) {
-			int indexDiveToUpdate = TestDives.FindIndex(d => d.Id == dive.Id);
+			int indexDiveToUpdate = TestDives.FindIndex(d => d.Number == dive.Number);
 
 			if (indexDiveToUpdate == -1) {
 				throw new DBConcurrencyException("Expected to modify 1 record but modified 0 records.");

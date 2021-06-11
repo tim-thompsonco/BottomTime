@@ -21,34 +21,34 @@ namespace BottomTimeApiTests.Controllers {
 
 			Assert.IsNotNull(testResponse);
 			Assert.AreEqual(2, testValues.Count);
-			Assert.AreEqual(repository.TestDives[0].Id, testValues[0].Id);
+			Assert.AreEqual(repository.TestDives[0].Number, testValues[0].Number);
 			Assert.AreEqual(repository.TestDives[0].DiveSite, testValues[0].DiveSite);
-			Assert.AreEqual(repository.TestDives[1].Id, testValues[1].Id);
+			Assert.AreEqual(repository.TestDives[1].Number, testValues[1].Number);
 			Assert.AreEqual(repository.TestDives[1].DiveSite, testValues[1].DiveSite);
 		}
 
 		[TestMethod]
-		public async Task GetDiveByIdUnitTestSucceedsAsync() {
+		public async Task GetDiveByDiveNumberUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int diveId = 2;
+			const int diveNumber = 2;
 
-			ActionResult<Dive> testActionResult = await controller.GetDiveByIdAsync(diveId);
+			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveNumberAsync(diveNumber);
 			OkObjectResult testResponse = testActionResult.Result as OkObjectResult;
 			Dive testValue = testResponse.Value as Dive;
 
 			Assert.IsNotNull(testResponse);
-			Assert.IsTrue(testValue.Id is 2);
+			Assert.IsTrue(testValue.Number is 2);
 			Assert.IsTrue(testValue.DiveSite is "Test site two");
 		}
 
 		[TestMethod]
-		public async Task GetDiveByIdUnitTestFailsAsync() {
+		public async Task GetDiveByDiveNumberUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int nonExistentDiveId = 5;
+			const int nonExistentDiveNumber = 5;
 
-			ActionResult<Dive> testActionResult = await controller.GetDiveByIdAsync(nonExistentDiveId);
+			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveNumberAsync(nonExistentDiveNumber);
 
 			Assert.IsTrue(testActionResult.Result is NotFoundResult);
 		}
@@ -57,14 +57,14 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task AddDiveUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive dive = new Dive { Id = 3, DiveSite = "A third dive site" };
+			Dive dive = new Dive { Number = 3, DiveSite = "A third dive site" };
 
 			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(dive);
 			CreatedAtActionResult testResponse = testActionResult.Result as CreatedAtActionResult;
 			Dive testValue = testResponse.Value as Dive;
 
 			Assert.IsNotNull(testResponse);
-			Assert.AreEqual(repository.TestDives[2].Id, testValue.Id);
+			Assert.AreEqual(repository.TestDives[2].Number, testValue.Number);
 			Assert.AreEqual(repository.TestDives[2].DiveSite, testValue.DiveSite);
 		}
 
@@ -72,12 +72,12 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task UpdateDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive updatedDive = new Dive { Id = 2, DiveSite = "Updated dive site" };
+			Dive updatedDive = new Dive { Number = 2, DiveSite = "Updated dive site" };
 
-			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
+			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Number, updatedDive);
 
 			Assert.IsTrue(testActionResult.Result is NoContentResult);
-			Assert.AreEqual(repository.TestDives[1].Id, updatedDive.Id);
+			Assert.AreEqual(repository.TestDives[1].Number, updatedDive.Number);
 			Assert.AreEqual(repository.TestDives[1].DiveSite, updatedDive.DiveSite);
 		}
 
@@ -85,11 +85,11 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task UpdateDiveUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive updatedDive = new Dive { Id = 2, DiveSite = "Updated dive site" };
-			const int notMatchingId = 3;
+			Dive updatedDive = new Dive { Number = 2, DiveSite = "Updated dive site" };
+			const int notMatchingNumber = 3;
 
 			try {
-				ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(notMatchingId, updatedDive);
+				ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(notMatchingNumber, updatedDive);
 			} catch (DBConcurrencyException ex) {
 				Assert.IsTrue(ex.Message is "Expected to modify 1 record but modified 0 records.");
 			}
@@ -99,22 +99,22 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task DeleteDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int idToDelete = 2;
+			const int numberToDelete = 2;
 
-			ActionResult<Dive> testActionResult = await controller.DeleteDiveByIdAsync(idToDelete);
+			ActionResult<Dive> testActionResult = await controller.DeleteDiveByNumberAsync(numberToDelete);
 
 			Assert.IsTrue(testActionResult.Result is NoContentResult);
 			Assert.IsTrue(repository.TestDives.Count is 1);
-			Assert.IsTrue(repository.TestDives[0].Id != idToDelete);
+			Assert.IsTrue(repository.TestDives[0].Number != numberToDelete);
 		}
 
 		[TestMethod]
 		public async Task DeleteDiveUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int nonExistentDiveId = 5;
+			const int nonExistentNumber = 5;
 
-			ActionResult<Dive> testActionResult = await controller.DeleteDiveByIdAsync(nonExistentDiveId);
+			ActionResult<Dive> testActionResult = await controller.DeleteDiveByNumberAsync(nonExistentNumber);
 
 			Assert.IsTrue(testActionResult.Result is NotFoundResult);
 		}
