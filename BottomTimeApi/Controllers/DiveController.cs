@@ -1,5 +1,6 @@
 ﻿using BottomTimeApi.DataAccess;
 using BottomTimeApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace BottomTimeApi.Controllers {
 
 		// GET: api/dives
 		[HttpGet]
+		[ProducesResponseType(StatusCodes.Status200OK)]
 		public async Task<ActionResult<List<Dive>>> GetDivesAsync() {
 			IEnumerable<Dive> dives = await _diveRepository.GetDivesAsync();
 
@@ -25,14 +27,19 @@ namespace BottomTimeApi.Controllers {
 
 		// POST: api/dives
 		[HttpPost]
-		public async Task<ActionResult<Dive>> AddDiveAsync(Dive dive) {
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
+			Dive dive = new Dive { DiveSite = diveDto.DiveSite };
+
 			await _diveRepository.AddDiveAsync(dive);
 
-			return CreatedAtAction(nameof(AddDiveAsync), new { number = dive.Number }, dive);
+			return CreatedAtRoute("GetDiveByDiveNumber", new { number = dive.Number }, dive);
 		}
 
 		// GET: api/dives/5
-		[HttpGet("{number}")]
+		[HttpGet("{number}", Name = "GetDiveByDiveNumber")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<ActionResult<Dive>> GetDiveByDiveNumberAsync(int number) {
 			Dive dive = await _diveRepository.GetDiveByDiveNumberAsync(number);
 
@@ -41,6 +48,8 @@ namespace BottomTimeApi.Controllers {
 
 		// PUT: api/dives/5
 		[HttpPut("{number}")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<ActionResult<Dive>> UpdateDiveAsync(int number, Dive dive) {
 			if (number != dive.Number) {
 				return BadRequest();
@@ -53,7 +62,9 @@ namespace BottomTimeApi.Controllers {
 
 		// DELETE: api/dives/5
 		[HttpDelete("{number}")]
-		public async Task<ActionResult<Dive>> DeleteDiveByNumberAsync(int number) {
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<ActionResult<Dive>> DeleteDiveByDiveNumber(int number) {
 			Dive dive = await _diveRepository.GetDiveByDiveNumberAsync(number);
 			if (dive == null) {
 				return NotFound();

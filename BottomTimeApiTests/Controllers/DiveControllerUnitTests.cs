@@ -57,10 +57,10 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task AddDiveUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive dive = new Dive { Number = 3, DiveSite = "A third dive site" };
+			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site" };
 
-			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(dive);
-			CreatedAtActionResult testResponse = testActionResult.Result as CreatedAtActionResult;
+			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
+			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
 			Dive testValue = testResponse.Value as Dive;
 
 			Assert.IsNotNull(testResponse);
@@ -101,7 +101,7 @@ namespace BottomTimeApiTests.Controllers {
 			DiveController controller = new DiveController(repository);
 			const int numberToDelete = 2;
 
-			ActionResult<Dive> testActionResult = await controller.DeleteDiveByNumberAsync(numberToDelete);
+			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveNumber(numberToDelete);
 
 			Assert.IsTrue(testActionResult.Result is NoContentResult);
 			Assert.IsTrue(repository.TestDives.Count is 1);
@@ -114,7 +114,7 @@ namespace BottomTimeApiTests.Controllers {
 			DiveController controller = new DiveController(repository);
 			const int nonExistentNumber = 5;
 
-			ActionResult<Dive> testActionResult = await controller.DeleteDiveByNumberAsync(nonExistentNumber);
+			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveNumber(nonExistentNumber);
 
 			Assert.IsTrue(testActionResult.Result is NotFoundResult);
 		}
