@@ -7,7 +7,6 @@ namespace BottomTimeApi.Models {
 		public DateTime Date { get; set; }
 		public string Location { get; set; }
 		public string DiveSite { get; set; }
-		public TimeSpan TimeIn { get; set; }
 		public short StartAirPressure { get; set; }
 		public short EndAirPressure { get; set; }
 		public PressureType PressureType { get; set; }
