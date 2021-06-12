@@ -5,6 +5,7 @@ using BottomTimeApi.Models;
 using BottomTimeApiTests.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -70,7 +71,7 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task AddDiveUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository, _mapper);
-			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site" };
+			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site", Number = 1 };
 
 			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
 			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
@@ -82,10 +83,25 @@ namespace BottomTimeApiTests.Controllers {
 		}
 
 		[TestMethod]
+		public async Task AddDiveUnitTestFailsValidationAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository, _mapper);
+			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site", Number = -1 };
+
+			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
+			BadRequestObjectResult testActionBadRequestResult = testActionResult.Result as BadRequestObjectResult;
+			Exception testActionResultException = testActionBadRequestResult.Value as Exception;
+
+			Assert.IsTrue(testActionResult.Result is BadRequestObjectResult);
+			Assert.IsNotNull(testActionResultException);
+			Assert.IsTrue(testActionResultException.Message is "Invalid dive number. The dive number must be 1 or higher.");
+		}
+
+		[TestMethod]
 		public async Task UpdateDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository, _mapper);
-			Dive updatedDive = new Dive { Id = 3587, DiveSite = "Not Underwater Island" };
+			Dive updatedDive = new Dive { Id = 3587, DiveSite = "Not Underwater Island", Number = 1 };
 
 			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
 
@@ -106,6 +122,25 @@ namespace BottomTimeApiTests.Controllers {
 			} catch (DBConcurrencyException ex) {
 				Assert.IsTrue(ex.Message is "Expected to modify 1 record but modified 0 records.");
 			}
+		}
+
+		[TestMethod]
+		public async Task UpdateDiveUnitTestFailsValidationAsync() {
+			DiveRepositoryMock repository = new DiveRepositoryMock();
+			DiveController controller = new DiveController(repository, _mapper);
+			Dive updatedDive = new Dive {
+				Id = 342,
+				DiveSite = "Not Underwater Island",
+				Number = 10001
+			};
+
+			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
+			BadRequestObjectResult testActionBadRequestResult = testActionResult.Result as BadRequestObjectResult;
+			Exception testActionResultException = testActionBadRequestResult.Value as Exception;
+
+			Assert.IsTrue(testActionResult.Result is BadRequestObjectResult);
+			Assert.IsNotNull(testActionResultException);
+			Assert.IsTrue(testActionResultException.Message is "Dive number is too high. The maximum dive number is 10,000.");
 		}
 
 		[TestMethod]
