@@ -3,7 +3,7 @@ using System;
 
 namespace BottomTimeApi.Models {
 	public class Dive {
-		public short Number { get; set; }
+		public short Id { get; set; }
 		public DateTime Date { get; set; }
 		public string Location { get; set; }
 		public string DiveSite { get; set; }
@@ -37,7 +37,6 @@ namespace BottomTimeApi.Models {
 		public short TankSize { get; set; }
 		public TankType TankType { get; set; }
 		public TankPressureType TankPressureType { get; set; }
-		public float SurfaceAirConsumption { get; set; }
 		public string DiveComments { get; set; }
 		public string DiveBuddy { get; set; }
 		public string DiveBuddyCertificationNumber { get; set; }

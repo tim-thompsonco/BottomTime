@@ -29,11 +29,44 @@ namespace BottomTimeApi.Controllers {
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
-			Dive dive = new Dive { DiveSite = diveDto.DiveSite };
+			Dive dive = new Dive {
+				DiveSite = diveDto.DiveSite,
+				Location = diveDto.Location,
+				Date = diveDto.Date,
+				TimeIn = diveDto.TimeIn,
+				StartAirPressure = diveDto.StartAirPressure,
+				EndAirPressure = diveDto.EndAirPressure,
+				PressureType = diveDto.PressureType,
+				WearWetSuit = diveDto.WearWetSuit,
+				WetSuitType = diveDto.WetSuitType,
+				WetSuitThickness = diveDto.WetSuitThickness,
+				WearDrySuit = diveDto.WearDrySuit,
+				DrySuitType = diveDto.DrySuitType,
+				DrySuitNumOfLiners = diveDto.DrySuitNumOfLiners,
+				MaxDepth = diveDto.MaxDepth,
+				AvgDepth = diveDto.AvgDepth,
+				SurfaceIntervalTime = diveDto.SurfaceIntervalTime,
+				BottomTime = diveDto.BottomTime,
+				DidSafetyStop = diveDto.DidSafetyStop,
+				SafetyStopTime = diveDto.SafetyStopTime,
+				WaterTemperature = diveDto.WaterTemperature,
+				TemperatureType = diveDto.TemperatureType,
+				Visibility = diveDto.Visibility,
+				VisibilityType = diveDto.VisibilityType,
+				Weight = diveDto.Weight,
+				WeightType = diveDto.WeightType,
+				TankSize = diveDto.TankSize,
+				TankType = diveDto.TankType,
+				TankPressureType = diveDto.TankPressureType,
+				DiveComments = diveDto.DiveComments,
+				DiveBuddy = diveDto.DiveBuddy,
+				DiveBuddyCertificationNumber = diveDto.DiveBuddyCertificationNumber,
+				DiveBuddyCertificationType = diveDto.DiveBuddyCertificationType
+			};
 
 			await _diveRepository.AddDiveAsync(dive);
 
-			return CreatedAtRoute("GetDiveByDiveNumber", new { number = dive.Number }, dive);
+			return CreatedAtRoute("GetDiveByDiveNumber", new { id = dive.Id }, dive);
 		}
 
 		// GET: api/dives/5
@@ -51,7 +84,7 @@ namespace BottomTimeApi.Controllers {
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<ActionResult<Dive>> UpdateDiveAsync(int number, Dive dive) {
-			if (number != dive.Number) {
+			if (number != dive.Id) {
 				return BadRequest();
 			}
 
