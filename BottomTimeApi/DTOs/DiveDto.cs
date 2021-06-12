@@ -1,9 +1,8 @@
-﻿using BottomTimeApi.Models.Enums;
+using BottomTimeApi.Models.Enums;
 using System;
 
 namespace BottomTimeApi.Models {
-	public class Dive {
-		public int Id { get; set; }
+	public class DiveDto {
 		public short Number { get; set; }
 		public DateTime Date { get; set; }
 		public string Location { get; set; }
@@ -18,7 +17,7 @@ namespace BottomTimeApi.Models {
 		public DrySuitType? DrySuitType { get; set; }
 		public short? DrySuitNumOfLiners { get; set; }
 		public short MaxDepth { get; set; }
-		public short? AvgDepth { get; set; }
+		public short AvgDepth { get; set; }
 		public TimeSpan? SurfaceIntervalTime { get; set; }
 		public TimeSpan BottomTime { get; set; }
 		public bool DidSafetyStop { get; set; }

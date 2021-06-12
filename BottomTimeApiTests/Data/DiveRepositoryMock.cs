@@ -1,18 +1,24 @@
-﻿using BottomTimeApi.DataAccess;
+﻿using BottomTimeApi.Data;
 using BottomTimeApi.Models;
+using BottomTimeApiTests.Data.MockData;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BottomTimeApiTests.DataAccess {
+namespace BottomTimeApiTests.Data {
 	public class DiveRepositoryMock : IDiveRepository {
 		public List<Dive> TestDives { get; set; }
 
 		public DiveRepositoryMock() {
+			IMockDive testDiveOne = new MockDiveOne();
+			IMockDive testDiveTwo = new MockDiveTwo();
+			IMockDive testDiveThree = new MockDiveThree();
+
 			TestDives = new List<Dive> {
-				new Dive{Id=1, DiveSite = "Test site one"},
-				new Dive{Id=2, DiveSite = "Test site two"}
+				testDiveOne.GetMockDive(),
+				testDiveTwo.GetMockDive(),
+				testDiveThree.GetMockDive()
 			};
 		}
 
@@ -28,7 +34,7 @@ namespace BottomTimeApiTests.DataAccess {
 			return Task.CompletedTask;
 		}
 
-		public Task<Dive> GetDiveByIdAsync(int id) {
+		public Task<Dive> GetDiveByDiveIdAsync(int id) {
 			return Task.FromResult(TestDives.FirstOrDefault(d => d.Id == id));
 		}
 

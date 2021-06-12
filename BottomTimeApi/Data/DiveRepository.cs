@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BottomTimeApi.DataAccess {
+namespace BottomTimeApi.Data {
 	public class DiveRepository : IDiveRepository {
 		private readonly DataContext _context;
 
@@ -17,8 +17,8 @@ namespace BottomTimeApi.DataAccess {
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task<Dive> GetDiveByIdAsync(int id) {
-			return await _context.Dives.FindAsync(id);
+		public async Task<Dive> GetDiveByDiveIdAsync(int number) {
+			return await _context.Dives.FindAsync(number);
 		}
 
 		public async Task<IEnumerable<Dive>> GetDivesAsync() {
