@@ -3,6 +3,7 @@ using BottomTimeApi;
 using BottomTimeApi.Controllers;
 using BottomTimeApi.Models;
 using BottomTimeApiTests.Data;
+using BottomTimeApiTests.Data.MockData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -71,7 +72,9 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task AddDiveUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository, _mapper);
-			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site", Number = 1 };
+			IMockDive mockDive = new MockDiveTwo();
+			Dive dive = mockDive.GetMockDive();
+			DiveDto diveDto = _mapper.Map<DiveDto>(dive);
 
 			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
 			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
@@ -101,7 +104,9 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task UpdateDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository, _mapper);
-			Dive updatedDive = new Dive { Id = 3587, DiveSite = "Not Underwater Island", Number = 1 };
+			IMockDive mockDive = new MockDiveTwo();
+			Dive updatedDive = mockDive.GetMockDive();
+			updatedDive.DiveSite = "Not Underwater Island";
 
 			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
 
