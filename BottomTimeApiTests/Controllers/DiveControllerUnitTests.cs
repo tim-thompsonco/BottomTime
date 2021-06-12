@@ -1,4 +1,6 @@
-﻿using BottomTimeApi.Controllers;
+﻿using AutoMapper;
+using BottomTimeApi;
+using BottomTimeApi.Controllers;
 using BottomTimeApi.Models;
 using BottomTimeApiTests.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +12,21 @@ using System.Threading.Tasks;
 namespace BottomTimeApiTests.Controllers {
 	[TestClass]
 	public class DiveControllerUnitTests {
+		private static IMapper _mapper;
+
+		public DiveControllerUnitTests() {
+			if (_mapper == null) {
+				MapperConfiguration mappingConfig = new MapperConfiguration(config => {
+					config.AddProfile(new MappingProfile());
+				});
+				_mapper = mappingConfig.CreateMapper();
+			}
+		}
+
 		[TestMethod]
 		public async Task GetDivesUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 
 			ActionResult<List<Dive>> testActionResult = await controller.GetDivesAsync();
 			OkObjectResult testResponse = testActionResult.Result as OkObjectResult;
@@ -30,7 +43,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task GetDiveByDiveIdUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			const int diveId = 342;
 
 			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveIdAsync(diveId);
@@ -45,7 +58,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task GetDiveByDiveIdUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			const int nonExistentDiveId = 789;
 
 			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveIdAsync(nonExistentDiveId);
@@ -56,7 +69,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task AddDiveUnitTestAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site" };
 
 			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
@@ -71,7 +84,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task UpdateDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			Dive updatedDive = new Dive { Id = 3587, DiveSite = "Not Underwater Island" };
 
 			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
@@ -84,7 +97,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task UpdateDiveUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			Dive updatedDive = new Dive { Id = 342, DiveSite = "Not Underwater Island" };
 			const int notMatchingId = 343;
 
@@ -98,7 +111,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task DeleteDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			const int IdToDelete = 342;
 
 			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveId(IdToDelete);
@@ -111,7 +124,7 @@ namespace BottomTimeApiTests.Controllers {
 		[TestMethod]
 		public async Task DeleteDiveUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
-			DiveController controller = new DiveController(repository);
+			DiveController controller = new DiveController(repository, _mapper);
 			const int nonExistentId = 345;
 
 			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveId(nonExistentId);

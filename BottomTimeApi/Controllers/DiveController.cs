@@ -1,4 +1,5 @@
-﻿using BottomTimeApi.Data;
+﻿using AutoMapper;
+using BottomTimeApi.Data;
 using BottomTimeApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,11 @@ namespace BottomTimeApi.Controllers {
 	[ApiController]
 	public class DiveController : ControllerBase {
 		private readonly IDiveRepository _diveRepository;
+		private readonly IMapper _mapper;
 
-		public DiveController(IDiveRepository diveRepository) {
+		public DiveController(IDiveRepository diveRepository, IMapper mapper) {
 			_diveRepository = diveRepository;
+			_mapper = mapper;
 		}
 
 		// GET: api/dives
@@ -29,40 +32,7 @@ namespace BottomTimeApi.Controllers {
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
-			Dive dive = new Dive {
-				Number = diveDto.Number,
-				DiveSite = diveDto.DiveSite,
-				Location = diveDto.Location,
-				Date = diveDto.Date,
-				StartAirPressure = diveDto.StartAirPressure,
-				EndAirPressure = diveDto.EndAirPressure,
-				PressureType = diveDto.PressureType,
-				WearWetSuit = diveDto.WearWetSuit,
-				WetSuitType = diveDto.WetSuitType,
-				WetSuitThickness = diveDto.WetSuitThickness,
-				WearDrySuit = diveDto.WearDrySuit,
-				DrySuitType = diveDto.DrySuitType,
-				DrySuitNumOfLiners = diveDto.DrySuitNumOfLiners,
-				MaxDepth = diveDto.MaxDepth,
-				AvgDepth = diveDto.AvgDepth,
-				SurfaceIntervalTime = diveDto.SurfaceIntervalTime,
-				BottomTime = diveDto.BottomTime,
-				DidSafetyStop = diveDto.DidSafetyStop,
-				SafetyStopTime = diveDto.SafetyStopTime,
-				WaterTemperature = diveDto.WaterTemperature,
-				TemperatureType = diveDto.TemperatureType,
-				Visibility = diveDto.Visibility,
-				VisibilityType = diveDto.VisibilityType,
-				Weight = diveDto.Weight,
-				WeightType = diveDto.WeightType,
-				TankSize = diveDto.TankSize,
-				TankType = diveDto.TankType,
-				TankPressureType = diveDto.TankPressureType,
-				DiveComments = diveDto.DiveComments,
-				DiveBuddy = diveDto.DiveBuddy,
-				DiveBuddyCertificationNumber = diveDto.DiveBuddyCertificationNumber,
-				DiveBuddyCertificationType = diveDto.DiveBuddyCertificationType
-			};
+			Dive dive = _mapper.Map<Dive>(diveDto);
 
 			await _diveRepository.AddDiveAsync(dive);
 
