@@ -18,7 +18,7 @@ namespace BottomTimeApi.Models {
 		public DrySuitType? DrySuitType { get; set; }
 		public short? DrySuitNumOfLiners { get; set; }
 		public short MaxDepth { get; set; }
-		public short AvgDepth { get; set; }
+		public short? AvgDepth { get; set; }
 		public TimeSpan? SurfaceIntervalTime { get; set; }
 		public TimeSpan BottomTime { get; set; }
 		public bool DidSafetyStop { get; set; }

@@ -20,7 +20,7 @@ namespace BottomTimeApiTests.Controllers {
 			List<Dive> testValues = testResponse.Value as List<Dive>;
 
 			Assert.IsNotNull(testResponse);
-			Assert.AreEqual(2, testValues.Count);
+			Assert.AreEqual(3, testValues.Count);
 			Assert.AreEqual(repository.TestDives[0].Id, testValues[0].Id);
 			Assert.AreEqual(repository.TestDives[0].DiveSite, testValues[0].DiveSite);
 			Assert.AreEqual(repository.TestDives[1].Id, testValues[1].Id);
@@ -31,22 +31,22 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task GetDiveByDiveIdUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int diveId = 2;
+			const int diveId = 342;
 
 			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveIdAsync(diveId);
 			OkObjectResult testResponse = testActionResult.Result as OkObjectResult;
 			Dive testValue = testResponse.Value as Dive;
 
 			Assert.IsNotNull(testResponse);
-			Assert.IsTrue(testValue.Id is 2);
-			Assert.IsTrue(testValue.DiveSite is "Test site two");
+			Assert.IsTrue(testValue.Id is 342);
+			Assert.IsTrue(testValue.DiveSite is "Underwater Island");
 		}
 
 		[TestMethod]
 		public async Task GetDiveByDiveIdUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int nonExistentDiveId = 5;
+			const int nonExistentDiveId = 789;
 
 			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveIdAsync(nonExistentDiveId);
 
@@ -64,15 +64,15 @@ namespace BottomTimeApiTests.Controllers {
 			Dive testValue = testResponse.Value as Dive;
 
 			Assert.IsNotNull(testResponse);
-			Assert.AreEqual(repository.TestDives[2].Id, testValue.Id);
-			Assert.AreEqual(repository.TestDives[2].DiveSite, testValue.DiveSite);
+			Assert.AreEqual(repository.TestDives[3].Id, testValue.Id);
+			Assert.AreEqual(repository.TestDives[3].DiveSite, testValue.DiveSite);
 		}
 
 		[TestMethod]
 		public async Task UpdateDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive updatedDive = new Dive { Id = 2, DiveSite = "Updated dive site" };
+			Dive updatedDive = new Dive { Id = 3587, DiveSite = "Not Underwater Island" };
 
 			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
 
@@ -85,8 +85,8 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task UpdateDiveUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			Dive updatedDive = new Dive { Id = 2, DiveSite = "Updated dive site" };
-			const int notMatchingId = 3;
+			Dive updatedDive = new Dive { Id = 342, DiveSite = "Not Underwater Island" };
+			const int notMatchingId = 343;
 
 			try {
 				ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(notMatchingId, updatedDive);
@@ -99,12 +99,12 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task DeleteDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int IdToDelete = 2;
+			const int IdToDelete = 342;
 
 			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveId(IdToDelete);
 
 			Assert.IsTrue(testActionResult.Result is NoContentResult);
-			Assert.IsTrue(repository.TestDives.Count is 1);
+			Assert.IsTrue(repository.TestDives.Count is 2);
 			Assert.IsTrue(repository.TestDives[0].Id != IdToDelete);
 		}
 
@@ -112,7 +112,7 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task DeleteDiveUnitTestFailsAsync() {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository);
-			const int nonExistentId = 5;
+			const int nonExistentId = 345;
 
 			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveId(nonExistentId);
 

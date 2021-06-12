@@ -34,7 +34,6 @@ namespace BottomTimeApi.Controllers {
 				DiveSite = diveDto.DiveSite,
 				Location = diveDto.Location,
 				Date = diveDto.Date,
-				TimeIn = diveDto.TimeIn,
 				StartAirPressure = diveDto.StartAirPressure,
 				EndAirPressure = diveDto.EndAirPressure,
 				PressureType = diveDto.PressureType,
