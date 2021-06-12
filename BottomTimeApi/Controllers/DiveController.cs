@@ -1,4 +1,5 @@
-﻿using BottomTimeApi.DataAccess;
+﻿using AutoMapper;
+using BottomTimeApi.Data;
 using BottomTimeApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,11 @@ namespace BottomTimeApi.Controllers {
 	[ApiController]
 	public class DiveController : ControllerBase {
 		private readonly IDiveRepository _diveRepository;
+		private readonly IMapper _mapper;
 
-		public DiveController(IDiveRepository diveRepository) {
+		public DiveController(IDiveRepository diveRepository, IMapper mapper) {
 			_diveRepository = diveRepository;
+			_mapper = mapper;
 		}
 
 		// GET: api/dives
@@ -29,19 +32,19 @@ namespace BottomTimeApi.Controllers {
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
-			Dive dive = new Dive { DiveSite = diveDto.DiveSite };
+			Dive dive = _mapper.Map<Dive>(diveDto);
 
 			await _diveRepository.AddDiveAsync(dive);
 
-			return CreatedAtRoute("GetDiveById", new { id = dive.Id }, dive);
+			return CreatedAtRoute("GetDiveByDiveId", new { id = dive.Id }, dive);
 		}
 
 		// GET: api/dives/5
-		[HttpGet("{id}", Name = "GetDiveById")]
+		[HttpGet("{id}", Name = "GetDiveByDiveId")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<ActionResult<Dive>> GetDiveByIdAsync(int id) {
-			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
+		public async Task<ActionResult<Dive>> GetDiveByDiveIdAsync(int id) {
+			Dive dive = await _diveRepository.GetDiveByDiveIdAsync(id);
 
 			return dive == null ? NotFound() : Ok(dive);
 		}
@@ -64,8 +67,8 @@ namespace BottomTimeApi.Controllers {
 		[HttpDelete("{id}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<ActionResult<Dive>> DeleteDiveByIdAsync(int id) {
-			Dive dive = await _diveRepository.GetDiveByIdAsync(id);
+		public async Task<ActionResult<Dive>> DeleteDiveByDiveId(int id) {
+			Dive dive = await _diveRepository.GetDiveByDiveIdAsync(id);
 			if (dive == null) {
 				return NotFound();
 			}
