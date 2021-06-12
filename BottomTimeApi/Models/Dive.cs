@@ -3,7 +3,8 @@ using System;
 
 namespace BottomTimeApi.Models {
 	public class Dive {
-		public short Id { get; set; }
+		public int Id { get; set; }
+		public short Number { get; set; }
 		public DateTime Date { get; set; }
 		public string Location { get; set; }
 		public string DiveSite { get; set; }

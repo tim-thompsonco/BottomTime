@@ -17,7 +17,7 @@ namespace BottomTimeApi.DataAccess {
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task<Dive> GetDiveByDiveNumberAsync(int number) {
+		public async Task<Dive> GetDiveByDiveIdAsync(int number) {
 			return await _context.Dives.FindAsync(number);
 		}
 
