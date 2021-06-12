@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BottomTimeApi.DataAccess {
+namespace BottomTimeApi.Data {
 	public class DiveRepository : IDiveRepository {
 		private readonly DataContext _context;
 

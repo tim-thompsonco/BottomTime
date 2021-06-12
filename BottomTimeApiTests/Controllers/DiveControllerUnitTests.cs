@@ -1,6 +1,6 @@
 ﻿using BottomTimeApi.Controllers;
 using BottomTimeApi.Models;
-using BottomTimeApiTests.DataAccess;
+using BottomTimeApiTests.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;

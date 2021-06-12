@@ -1,11 +1,11 @@
-﻿using BottomTimeApi.DataAccess;
+﻿using BottomTimeApi.Data;
 using BottomTimeApi.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BottomTimeApiTests.DataAccess {
+namespace BottomTimeApiTests.Data {
 	public class DiveRepositoryMock : IDiveRepository {
 		public List<Dive> TestDives { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using BottomTimeApi.DataAccess;
+﻿using BottomTimeApi.Data;
 using BottomTimeApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
