@@ -40,7 +40,7 @@ namespace BottomTimeApi.Controllers {
 			try {
 				DiveValidator.ValidateDive(dive);
 			} catch (Exception ex) {
-				return BadRequest(ex);
+				return BadRequest(ex.Message);
 			}
 
 			await _diveRepository.AddDiveAsync(dive);
@@ -70,7 +70,7 @@ namespace BottomTimeApi.Controllers {
 			try {
 				DiveValidator.ValidateDive(dive);
 			} catch (Exception ex) {
-				return BadRequest(ex);
+				return BadRequest(ex.Message);
 			}
 
 			await _diveRepository.UpdateDiveAsync(dive);
