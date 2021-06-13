@@ -1,9 +1,8 @@
 using BottomTimeApi.Extensions;
+using BottomTimeApi.Middleware;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace BottomTimeApi {
@@ -26,10 +25,8 @@ namespace BottomTimeApi {
 			});
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-			if (env.IsDevelopment()) {
-				app.UseDeveloperExceptionPage();
-			}
+		public void Configure(IApplicationBuilder app) {
+			app.UseMiddleware<ExceptionMiddleware>();
 
 			app.UseSwagger();
 			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BottomTimeApi v1"));

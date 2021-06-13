@@ -6,6 +6,7 @@ using BottomTimeApiTests.Data;
 using BottomTimeApiTests.Data.MockData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -89,12 +90,13 @@ namespace BottomTimeApiTests.Controllers {
 			DiveRepositoryMock repository = new DiveRepositoryMock();
 			DiveController controller = new DiveController(repository, _mapper);
 			DiveDto diveDto = new DiveDto { DiveSite = "A third dive site", Number = -1 };
+			ActionResult<Dive> testActionResult;
 
-			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
-			BadRequestObjectResult testActionBadRequestResult = testActionResult.Result as BadRequestObjectResult;
-
-			Assert.IsTrue(testActionResult.Result is BadRequestObjectResult);
-			Assert.IsTrue(testActionBadRequestResult.Value is "Invalid dive number. The dive number must be 1 or higher.");
+			try {
+				testActionResult = await controller.AddDiveAsync(diveDto);
+			} catch (InvalidOperationException ex) {
+				Assert.IsTrue(ex.Message is "Invalid dive number. The dive number must be 1 or higher.");
+			}
 		}
 
 		[TestMethod]
@@ -136,11 +138,11 @@ namespace BottomTimeApiTests.Controllers {
 				Number = 10001
 			};
 
-			ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
-			BadRequestObjectResult testActionBadRequestResult = testActionResult.Result as BadRequestObjectResult;
-
-			Assert.IsTrue(testActionResult.Result is BadRequestObjectResult);
-			Assert.IsTrue(testActionBadRequestResult.Value is "Dive number is too high. The maximum dive number is 10,000.");
+			try {
+				ActionResult<Dive> testActionResult = await controller.UpdateDiveAsync(updatedDive.Id, updatedDive);
+			} catch (InvalidOperationException ex) {
+				Assert.IsTrue(ex.Message is "Dive number is too high. The maximum dive number is 10,000.");
+			}
 		}
 
 		[TestMethod]
