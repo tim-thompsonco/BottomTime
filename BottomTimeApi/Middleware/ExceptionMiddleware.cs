@@ -17,7 +17,7 @@ namespace BottomTimeApi.Middleware {
 			_next = next;
 		}
 
-		public async void InvokeAsync(HttpContext context) {
+		public async Task InvokeAsync(HttpContext context) {
 			try {
 				await _next(context);
 			} catch (InvalidOperationException ex) {
