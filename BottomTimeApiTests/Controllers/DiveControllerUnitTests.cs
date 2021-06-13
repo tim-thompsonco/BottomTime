@@ -92,7 +92,7 @@ namespace BottomTimeApiTests.Controllers {
 			DiveDto diveDto = new() { DiveSite = "A third dive site", Number = -1 };
 
 			try {
-				testActionResult = await controller.AddDiveAsync(diveDto);
+				ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
 			} catch (InvalidOperationException ex) {
 				Assert.IsTrue(ex.Message is "Invalid dive number. The dive number must be 1 or higher.");
 			}
