@@ -16,7 +16,8 @@ namespace BottomTimeApi {
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddApplicationServices(_config);
 
-			services.AddControllers();
+			services.AddControllers()
+				.AddNewtonsoftJson();
 
 			services.AddAutoMapper(typeof(Startup));
 
