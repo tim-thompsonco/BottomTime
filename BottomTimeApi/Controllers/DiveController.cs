@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BottomTimeApi.Data;
 using BottomTimeApi.Models;
+using BottomTimeApi.Validation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -31,8 +32,11 @@ namespace BottomTimeApi.Controllers {
 		// POST: api/dives
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
 			Dive dive = _mapper.Map<Dive>(diveDto);
+
+			DiveValidator.ValidateDive(dive);
 
 			await _diveRepository.AddDiveAsync(dive);
 
@@ -57,6 +61,8 @@ namespace BottomTimeApi.Controllers {
 			if (id != dive.Id) {
 				return BadRequest();
 			}
+
+			DiveValidator.ValidateDive(dive);
 
 			await _diveRepository.UpdateDiveAsync(dive);
 
