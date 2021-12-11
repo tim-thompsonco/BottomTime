@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 5.0.104
+dotnet: 6.0.100
 solution: BottomTimeApi.sln
 script:
   - dotnet restore
