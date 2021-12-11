@@ -10,13 +10,7 @@ namespace BottomTimeApi.Extensions {
 			this IServiceCollection services, IConfiguration config) {
 			services.AddScoped<IDiveRepository, DiveRepository>();
 			services.AddDbContext<DataContext>(options => {
-				string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-				if (env == null) {
-					env = "Testing";
-				}
-
-				string connString = env is "Development" or "Testing" ? config["DATABASE_DOTNET_URL"]
-					: Environment.GetEnvironmentVariable("DATABASE_DOTNET_URL");
+				string connString = Environment.GetEnvironmentVariable("DATABASE_DOTNET_URL") ?? config["DATABASE_DOTNET_URL"];
 				options.UseNpgsql(connString);
 				options.UseSnakeCaseNamingConvention();
 			});
