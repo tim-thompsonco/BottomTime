@@ -4,7 +4,7 @@ using BottomTimeApi.Models;
 namespace BottomTimeApi {
 	public class MappingProfile : Profile {
 		public MappingProfile() {
-			CreateMap<Dive, DiveDto>().ReverseMap();
+			CreateMap<Dive, DivePost>().ReverseMap();
 		}
 	}
 }

@@ -74,9 +74,9 @@ namespace BottomTimeApiTests.Controllers {
 			DiveController controller = new(repository, _mapper);
 			IMockDive mockDive = new MockDiveTwo();
 			Dive dive = mockDive.GetMockDive();
-			DiveDto diveDto = _mapper.Map<DiveDto>(dive);
+			DivePost divePost = _mapper.Map<DivePost>(dive);
 
-			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
+			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(divePost);
 			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
 			Dive testValue = testResponse.Value as Dive;
 
@@ -89,10 +89,10 @@ namespace BottomTimeApiTests.Controllers {
 		public async Task AddDiveUnitTestFailsValidationAsync() {
 			DiveRepositoryMock repository = new();
 			DiveController controller = new(repository, _mapper);
-			DiveDto diveDto = new() { DiveSite = "A third dive site", Number = -1 };
+			DivePost divePost = new() { DiveSite = "A third dive site", Number = -1 };
 
 			try {
-				ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
+				ActionResult<Dive> testActionResult = await controller.AddDiveAsync(divePost);
 			} catch (InvalidOperationException ex) {
 				Assert.IsTrue(ex.Message is "Invalid dive number. The dive number must be 1 or higher.");
 			}
