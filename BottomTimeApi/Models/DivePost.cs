@@ -2,7 +2,7 @@ using BottomTimeApi.Models.Enums;
 using System;
 
 namespace BottomTimeApi.Models {
-	public class DiveDto {
+	public class DivePost {
 		public short Number { get; set; }
 		public DateTime Date { get; set; }
 		public string Location { get; set; }
