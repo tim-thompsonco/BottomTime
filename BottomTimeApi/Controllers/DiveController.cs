@@ -33,8 +33,8 @@ namespace BottomTimeApi.Controllers {
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<ActionResult<Dive>> AddDiveAsync(DiveDto diveDto) {
-			Dive dive = _mapper.Map<Dive>(diveDto);
+		public async Task<ActionResult<Dive>> AddDiveAsync(DivePost divePost) {
+			Dive dive = _mapper.Map<Dive>(divePost);
 
 			DiveValidator.ValidateDive(dive);
 

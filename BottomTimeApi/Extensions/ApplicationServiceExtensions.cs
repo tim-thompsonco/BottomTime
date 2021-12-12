@@ -10,9 +10,8 @@ namespace BottomTimeApi.Extensions {
 			this IServiceCollection services, IConfiguration config) {
 			services.AddScoped<IDiveRepository, DiveRepository>();
 			services.AddDbContext<DataContext>(options => {
-				string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-				string connString = env == "Development" ? config.GetConnectionString("DefaultConnection")
-					: Environment.GetEnvironmentVariable("DATABASE_DOTNET_URL");
+				// Check to see if env variable for DB is present, and if not, we are in local dev env using secret manager
+				string connString = Environment.GetEnvironmentVariable("DATABASE_DOTNET_URL") ?? config["DATABASE_DOTNET_URL"];
 				options.UseNpgsql(connString);
 				options.UseSnakeCaseNamingConvention();
 			});

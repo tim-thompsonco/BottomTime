@@ -10,7 +10,7 @@ namespace BottomTimeApiTests.Data.MockData {
 			_mockDive = new Dive {
 				Id = 3587,
 				Number = 149,
-				Date = new DateTime(2012, 9, 7, 10, 45, 0),
+				Date = new DateTime(2012, 9, 7, 10, 45, 0).ToUniversalTime(),
 				Location = "Point Lobos, CA, USA",
 				DiveSite = "Whaler's Cove",
 				StartAirPressure = 3200,

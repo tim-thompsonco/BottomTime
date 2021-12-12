@@ -7,7 +7,6 @@ using BottomTimeApiTests.Data.MockData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -26,73 +25,13 @@ namespace BottomTimeApiTests.Controllers {
 		}
 
 		[TestMethod]
-		public async Task GetDivesUnitTestAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-
-			ActionResult<List<Dive>> testActionResult = await controller.GetDivesAsync();
-			OkObjectResult testResponse = testActionResult.Result as OkObjectResult;
-			List<Dive> testValues = testResponse.Value as List<Dive>;
-
-			Assert.IsNotNull(testResponse);
-			Assert.AreEqual(3, testValues.Count);
-			Assert.AreEqual(repository.TestDives[0].Id, testValues[0].Id);
-			Assert.AreEqual(repository.TestDives[0].DiveSite, testValues[0].DiveSite);
-			Assert.AreEqual(repository.TestDives[1].Id, testValues[1].Id);
-			Assert.AreEqual(repository.TestDives[1].DiveSite, testValues[1].DiveSite);
-		}
-
-		[TestMethod]
-		public async Task GetDiveByDiveIdUnitTestSucceedsAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-			const int diveId = 342;
-
-			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveIdAsync(diveId);
-			OkObjectResult testResponse = testActionResult.Result as OkObjectResult;
-			Dive testValue = testResponse.Value as Dive;
-
-			Assert.IsNotNull(testResponse);
-			Assert.IsTrue(testValue.Id is 342);
-			Assert.IsTrue(testValue.DiveSite is "Underwater Island");
-		}
-
-		[TestMethod]
-		public async Task GetDiveByDiveIdUnitTestFailsAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-			const int nonExistentDiveId = 789;
-
-			ActionResult<Dive> testActionResult = await controller.GetDiveByDiveIdAsync(nonExistentDiveId);
-
-			Assert.IsTrue(testActionResult.Result is NotFoundResult);
-		}
-
-		[TestMethod]
-		public async Task AddDiveUnitTestAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-			IMockDive mockDive = new MockDiveTwo();
-			Dive dive = mockDive.GetMockDive();
-			DiveDto diveDto = _mapper.Map<DiveDto>(dive);
-
-			ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
-			CreatedAtRouteResult testResponse = testActionResult.Result as CreatedAtRouteResult;
-			Dive testValue = testResponse.Value as Dive;
-
-			Assert.IsNotNull(testResponse);
-			Assert.AreEqual(repository.TestDives[3].Id, testValue.Id);
-			Assert.AreEqual(repository.TestDives[3].DiveSite, testValue.DiveSite);
-		}
-
-		[TestMethod]
 		public async Task AddDiveUnitTestFailsValidationAsync() {
 			DiveRepositoryMock repository = new();
 			DiveController controller = new(repository, _mapper);
-			DiveDto diveDto = new() { DiveSite = "A third dive site", Number = -1 };
+			DivePost divePost = new() { DiveSite = "A third dive site", Number = -1 };
 
 			try {
-				ActionResult<Dive> testActionResult = await controller.AddDiveAsync(diveDto);
+				ActionResult<Dive> testActionResult = await controller.AddDiveAsync(divePost);
 			} catch (InvalidOperationException ex) {
 				Assert.IsTrue(ex.Message is "Invalid dive number. The dive number must be 1 or higher.");
 			}
