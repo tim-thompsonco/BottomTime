@@ -17,7 +17,9 @@ namespace BottomTimeApi {
 			services.AddApplicationServices(_config);
 
 			services.AddControllers()
-				.AddNewtonsoftJson();
+				.AddNewtonsoftJson(options => {
+					options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+				});
 
 			services.AddAutoMapper(typeof(Startup));
 
