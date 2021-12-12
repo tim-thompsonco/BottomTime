@@ -23,8 +23,8 @@ namespace BottomTimeApi.Controllers {
 		// GET: api/dives
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		public async Task<ActionResult<List<Dive>>> GetDivesAsync() {
-			IEnumerable<Dive> dives = await _diveRepository.GetDivesAsync();
+		public async Task<ActionResult<List<Dive>>> GetDivesAsync(int pageNumber = 1, int divesPerPage = 10) {
+			IEnumerable<Dive> dives = await _diveRepository.GetDivesAsync(pageNumber, divesPerPage);
 
 			return Ok(dives.ToList());
 		}

@@ -1,6 +1,8 @@
 ﻿using BottomTimeApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BottomTimeApi.Data {
@@ -21,8 +23,20 @@ namespace BottomTimeApi.Data {
 			return await _context.Dives.FindAsync(number);
 		}
 
-		public async Task<IEnumerable<Dive>> GetDivesAsync() {
-			return await _context.Dives.ToListAsync();
+		public async Task<IEnumerable<Dive>> GetDivesAsync(int pageNumber = 1, int divesPerPage = 10) {
+			if (pageNumber < 1) {
+				throw new InvalidOperationException("The page number cannot be less than 1.");
+			}
+
+			if (divesPerPage < 1) {
+				throw new InvalidOperationException("The dives per page cannot be less than 1.");
+			}
+
+			return await _context.Dives
+				.Skip((pageNumber - 1) * divesPerPage)
+				.Take(divesPerPage)
+				.OrderBy(dive => dive.Id)
+				.ToListAsync();
 		}
 
 		public async Task UpdateDiveAsync(Dive dive) {
