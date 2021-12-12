@@ -7,8 +7,10 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
+			ValidateDiveWaterTemperature(dive);
 			ValidateDiveVisibility(dive);
 			ValidateDiveWeight(dive);
+			ValidateDiveTankSize(dive);
 		}
 
 		private static void ValidateDiveNumber(Dive dive) {
@@ -37,6 +39,12 @@ namespace BottomTimeApi.Validation {
 			}
 		}
 
+		private static void ValidateDiveWaterTemperature(Dive dive) {
+			if (dive.WaterTemperature < 0) {
+				throw new InvalidOperationException("Invalid water temperature. Water temperature cannot be negative.");
+			}
+		}
+
 		private static void ValidateDiveVisibility(Dive dive) {
 			if (dive.Visibility < 0) {
 				throw new InvalidOperationException("Invalid dive visibility. Visibility cannot be negative.");
@@ -46,6 +54,12 @@ namespace BottomTimeApi.Validation {
 		private static void ValidateDiveWeight(Dive dive) {
 			if (dive.Weight < 0) {
 				throw new InvalidOperationException("Invalid dive weight. Weight cannot be negative.");
+			}
+		}
+
+		private static void ValidateDiveTankSize(Dive dive) {
+			if (dive.TankSize < 0) {
+				throw new InvalidOperationException("Invalid tank size. Tank size cannot be negative.");
 			}
 		}
 	}

@@ -98,6 +98,24 @@ namespace BottomTimeApiTests.Validation {
 		}
 
 		[TestMethod]
+		public void ValidateDiveFailsWhenDiveWaterTemperatureIsNegativeTest() {
+			Dive dive = new MockDive {
+				WaterTemperature = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid water temperature. Water temperature cannot be negative.");
+		}
+
+		[TestMethod]
 		public void ValidateDiveFailsWhenDiveVisibilityIsNegativeTest() {
 			Dive dive = new MockDive {
 				Visibility = -1
@@ -131,6 +149,24 @@ namespace BottomTimeApiTests.Validation {
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
 			Assert.IsTrue(exception.Message is "Invalid dive weight. Weight cannot be negative.");
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveTankSizeIsNegativeTest() {
+			Dive dive = new MockDive {
+				TankSize = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid tank size. Tank size cannot be negative.");
 		}
 	}
 }
