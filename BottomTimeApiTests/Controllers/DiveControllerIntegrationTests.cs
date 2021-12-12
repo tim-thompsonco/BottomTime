@@ -34,7 +34,7 @@ namespace BottomTimeApiTests.Controllers {
 				});
 			using HttpClient client = application.CreateClient();
 			DivePost divePost = new MockDivePost();
-			using StringContent diveContent = new StringContent(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
 
 			using HttpResponseMessage response = await client.PostAsync("api/dives", diveContent);
 			string responseContent = await response.Content.ReadAsStringAsync();
@@ -53,7 +53,7 @@ namespace BottomTimeApiTests.Controllers {
 				});
 			using HttpClient client = application.CreateClient();
 			DivePost divePost = new MockDivePost();
-			using StringContent diveContent = new StringContent(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
 			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
 			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
 			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
@@ -88,7 +88,7 @@ namespace BottomTimeApiTests.Controllers {
 				});
 			using HttpClient client = application.CreateClient();
 			DivePost divePost = new MockDivePost();
-			using StringContent diveContent = new StringContent(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
 			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
 			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
 			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
