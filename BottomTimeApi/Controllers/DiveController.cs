@@ -53,15 +53,11 @@ namespace BottomTimeApi.Controllers {
 			return dive == null ? NotFound() : Ok(dive);
 		}
 
-		// PUT: api/dives/5
-		[HttpPut("{id}")]
+		// PUT: api/dives
+		[HttpPut]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<ActionResult<Dive>> UpdateDiveAsync(int id, Dive dive) {
-			if (id != dive.Id) {
-				return BadRequest();
-			}
-
+		public async Task<ActionResult<Dive>> UpdateDiveAsync(Dive dive) {
 			DiveValidator.ValidateDive(dive);
 
 			await _diveRepository.UpdateDiveAsync(dive);

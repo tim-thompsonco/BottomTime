@@ -6,7 +6,7 @@ namespace BottomTimeApiTests.Data.MockData {
 	public class MockDivePost : DivePost {
 		public MockDivePost() {
 			Number = 149;
-			Date = new DateTime(2012, 9, 7, 10, 45, 0).ToUniversalTime();
+			Date = new DateTime(2012, 9, 7, 10, 45, 0);
 			Location = "Point Lobos, CA, USA";
 			DiveSite = "Whaler's Cove";
 			StartAirPressure = 3200;
