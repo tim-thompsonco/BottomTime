@@ -33,9 +33,9 @@ namespace BottomTimeApi.Data {
 			}
 
 			return await _context.Dives
+				.OrderBy(dive => dive.Id)
 				.Skip((pageNumber - 1) * divesPerPage)
 				.Take(divesPerPage)
-				.OrderBy(dive => dive.Id)
 				.ToListAsync();
 		}
 

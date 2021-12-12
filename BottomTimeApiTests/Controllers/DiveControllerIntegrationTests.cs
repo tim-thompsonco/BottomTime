@@ -90,6 +90,22 @@ namespace BottomTimeApiTests.Controllers {
 		}
 
 		[Fact]
+		public async Task PostDiveBadRequestIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			DivePost divePost = new MockDivePost {
+				Location = string.Empty // This is a required field for DivePost
+			};
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+
+			using HttpResponseMessage response = await client.PostAsync("api/dives", diveContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+		}
+
+		[Fact]
 		public async Task GetDiveByIdOkIntegrationTestAsync() {
 			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
 				.WithWebHostBuilder(builder => {

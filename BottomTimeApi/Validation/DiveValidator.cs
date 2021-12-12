@@ -5,8 +5,6 @@ namespace BottomTimeApi.Validation {
 	public class DiveValidator {
 		public static void ValidateDive(Dive dive) {
 			ValidateDiveNumber(dive);
-			ValidateDiveLocation(dive);
-			ValidateDiveSite(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
 		}
@@ -18,18 +16,6 @@ namespace BottomTimeApi.Validation {
 
 			if (dive.Number < 1) {
 				throw new InvalidOperationException("Invalid dive number. The dive number must be 1 or higher.");
-			}
-		}
-
-		private static void ValidateDiveLocation(Dive dive) {
-			if (dive.Location == null || dive.Location.Length == 0) {
-				throw new InvalidOperationException("Invalid dive location. Location cannot be empty.");
-			}
-		}
-
-		private static void ValidateDiveSite(Dive dive) {
-			if (dive.DiveSite == null || dive.DiveSite.Length == 0) {
-				throw new InvalidOperationException("Invalid dive site. Dive site cannot be empty.");
 			}
 		}
 

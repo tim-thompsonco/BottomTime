@@ -1,18 +1,25 @@
 using BottomTimeApi.Enums;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BottomTimeApi.Models {
 	public class DivePost {
+		[Required]
 		[DefaultValue(100)]
 		public short Number { get; set; }
+		[Required]
 		public DateTime Date { get; set; }
+		[Required]
 		[DefaultValue("Sample dive location")]
 		public string Location { get; set; }
+		[Required]
 		[DefaultValue("Sample dive site")]
 		public string DiveSite { get; set; }
+		[Required]
 		[DefaultValue(3000)]
 		public short StartAirPressure { get; set; }
+		[Required]
 		[DefaultValue(1000)]
 		public short EndAirPressure { get; set; }
 		public PressureType PressureType { get; set; }
@@ -22,6 +29,7 @@ namespace BottomTimeApi.Models {
 		public bool WearDrySuit { get; set; }
 		public DrySuitType? DrySuitType { get; set; }
 		public short? DrySuitNumOfLiners { get; set; }
+		[Required]
 		[DefaultValue(45)]
 		public short MaxDepth { get; set; }
 		[DefaultValue(30)]
