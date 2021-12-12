@@ -9,9 +9,9 @@ namespace BottomTimeApiTests.Validation {
 	public class DiveValidationUnitTests {
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveNumberTooHighTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.Number = 10001;
+			Dive dive = new MockDive {
+				Number = 10001
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -22,9 +22,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveNumberTooLowTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.Number = -1;
+			Dive dive = new MockDive {
+				Number = -1
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -35,9 +35,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveLocationEmptyTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.Location = string.Empty;
+			Dive dive = new MockDive {
+				Location = string.Empty
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -49,9 +49,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveLocationMissingTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.Location = null;
+			Dive dive = new MockDive {
+				Location = null
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -62,9 +62,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveSiteEmptyTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.DiveSite = string.Empty;
+			Dive dive = new MockDive {
+				DiveSite = string.Empty
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -75,9 +75,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveSiteMissingTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.DiveSite = null;
+			Dive dive = new MockDive {
+				DiveSite = null
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -88,9 +88,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveStartAirPressureIsZeroTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.StartAirPressure = 0;
+			Dive dive = new MockDive {
+				StartAirPressure = 0
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
@@ -101,9 +101,9 @@ namespace BottomTimeApiTests.Validation {
 
 		[TestMethod]
 		public void ValidateDiveFailsWhenDiveStartAirPressureIsNegativeTest() {
-			IMockDive mockDive = new MockDiveOne();
-			Dive dive = mockDive.GetMockDive();
-			dive.StartAirPressure = -1;
+			Dive dive = new MockDive {
+				StartAirPressure = -1
+			};
 
 			try {
 				DiveValidator.ValidateDive(dive);
