@@ -1,4 +1,5 @@
 ﻿using BottomTimeApi;
+using BottomTimeApi.Errors;
 using BottomTimeApi.Models;
 using BottomTimeApiTests.Data.MockData;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -114,10 +115,14 @@ namespace BottomTimeApiTests.Controllers {
 				Number = 10001 // This should throw a validation exception since the max number allowed is 10000
 			};
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePut), Encoding.UTF8, "application/json");
-			
+			const string expectedResponseMessage = "Dive number is too high. The maximum dive number is 10,000.";
+
 			using HttpResponseMessage putResponse = await client.PutAsync("api/dives", diveContent);
+			string putResponseContent = await putResponse.Content.ReadAsStringAsync();
+			ApiExceptionMessage deserializedPutResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(putResponseContent);
 
 			Assert.Equal(HttpStatusCode.BadRequest, putResponse.StatusCode);
+			Assert.Equal(expectedResponseMessage, deserializedPutResponseContent.Message);
 		}
 
 		[Fact]
