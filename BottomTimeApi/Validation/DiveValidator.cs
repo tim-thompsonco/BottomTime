@@ -7,6 +7,8 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
+			ValidateDiveMaxDepth(dive);
+			ValidateDiveAvgDepth(dive);
 			ValidateDiveWaterTemperature(dive);
 			ValidateDiveVisibility(dive);
 			ValidateDiveWeight(dive);
@@ -36,6 +38,20 @@ namespace BottomTimeApi.Validation {
 		private static void ValidateDiveEndAirPressure(Dive dive) {
 			if (dive.EndAirPressure < 0) {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be negative.");
+			}
+		}
+
+		private static void ValidateDiveMaxDepth(Dive dive) {
+			if (dive.MaxDepth < 0) {
+				throw new InvalidOperationException("Invalid dive max depth. Max depth cannot be negative.");
+			}
+		}
+
+		private static void ValidateDiveAvgDepth(Dive dive) {
+			if (dive.AvgDepth < 0) {
+				throw new InvalidOperationException("Invalid dive average depth. Average depth cannot be negative.");
+			} else if (dive.AvgDepth > dive.MaxDepth) {
+				throw new InvalidOperationException("Invalid dive average depth. Average depth cannot be greater than max depth.");
 			}
 		}
 

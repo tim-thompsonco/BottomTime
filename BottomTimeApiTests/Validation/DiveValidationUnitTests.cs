@@ -98,6 +98,61 @@ namespace BottomTimeApiTests.Validation {
 		}
 
 		[TestMethod]
+		public void ValidateDiveFailsWhenDiveMaxDepthIsNegativeTest() {
+			Dive dive = new MockDive {
+				MaxDepth = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid dive max depth. Max depth cannot be negative.");
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveAvgDepthIsNegativeTest() {
+			Dive dive = new MockDive {
+				AvgDepth = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid dive average depth. Average depth cannot be negative.");
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveAvgDepthIsGreaterThanMaxDepthTest() {
+			Dive dive = new MockDive {
+				AvgDepth = 45,
+				MaxDepth = 40
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid dive average depth. Average depth cannot be greater than max depth.");
+		}
+
+		[TestMethod]
 		public void ValidateDiveFailsWhenDiveWaterTemperatureIsNegativeTest() {
 			Dive dive = new MockDive {
 				WaterTemperature = -1
