@@ -84,6 +84,9 @@ namespace BottomTimeApiTests.Controllers {
 			Assert.Equal(divePost.Number, deserializedContent.Number);
 			Assert.Equal(divePost.BottomTime, deserializedContent.BottomTime);
 			Assert.Equal(divePost.AvgDepth, deserializedContent.AvgDepth);
+
+			// Cleanup dive that was created to avoid bloating the size of ACC DB
+			await client.DeleteAsync($"api/dives/{deserializedContent.Id}");
 		}
 
 		[Fact]
