@@ -1,4 +1,4 @@
-﻿using BottomTimeApi.Models.Enums;
+﻿using BottomTimeApi.Enums;
 using System;
 
 namespace BottomTimeApi.Models {

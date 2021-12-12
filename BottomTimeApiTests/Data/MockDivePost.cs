@@ -1,5 +1,5 @@
 ﻿using BottomTimeApi.Models;
-using BottomTimeApi.Models.Enums;
+using BottomTimeApi.Enums;
 using System;
 
 namespace BottomTimeApiTests.Data.MockData {
@@ -13,7 +13,7 @@ namespace BottomTimeApiTests.Data.MockData {
 			EndAirPressure = 1200;
 			PressureType = PressureType.Psi;
 			WearDrySuit = true;
-			DrySuitType = BottomTimeApi.Models.Enums.DrySuitType.Shell; // TODO: Fix using reference so this isn't too long
+			DrySuitType = BottomTimeApi.Enums.DrySuitType.Shell; // TODO: Fix using reference so this isn't too long
 			DrySuitNumOfLiners = 1;
 			MaxDepth = 30;
 			AvgDepth = 30;
