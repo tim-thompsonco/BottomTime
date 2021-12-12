@@ -7,6 +7,8 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
+			ValidateDiveVisibility(dive);
+			ValidateDiveWeight(dive);
 		}
 
 		private static void ValidateDiveNumber(Dive dive) {
@@ -32,6 +34,18 @@ namespace BottomTimeApi.Validation {
 		private static void ValidateDiveEndAirPressure(Dive dive) {
 			if (dive.EndAirPressure < 0) {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be negative.");
+			}
+		}
+
+		private static void ValidateDiveVisibility(Dive dive) {
+			if (dive.Visibility < 0) {
+				throw new InvalidOperationException("Invalid dive visibility. Visibility cannot be negative.");
+			}
+		}
+
+		private static void ValidateDiveWeight(Dive dive) {
+			if (dive.Weight < 0) {
+				throw new InvalidOperationException("Invalid dive weight. Weight cannot be negative.");
 			}
 		}
 	}

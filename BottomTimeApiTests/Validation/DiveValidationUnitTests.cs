@@ -96,5 +96,41 @@ namespace BottomTimeApiTests.Validation {
 			Assert.IsTrue(exception is InvalidOperationException);
 			Assert.IsTrue(exception.Message is "Invalid dive end air pressure. End air pressure cannot be negative.");
 		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveVisibilityIsNegativeTest() {
+			Dive dive = new MockDive {
+				Visibility = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid dive visibility. Visibility cannot be negative.");
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveWeightIsNegativeTest() {
+			Dive dive = new MockDive {
+				Weight = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid dive weight. Weight cannot be negative.");
+		}
 	}
 }
