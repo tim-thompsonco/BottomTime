@@ -3,5 +3,5 @@ mono: none
 dotnet: 6.0.100
 solution: BottomTimeApi.sln
 script:
-- dotnet restore
-- dotnet test
+  - dotnet restore
+  - dotnet test
