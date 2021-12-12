@@ -82,6 +82,45 @@ namespace BottomTimeApiTests.Controllers {
 		}
 
 		[Fact]
+		public async Task UpdateDiveNoContentIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			DivePost divePost = new MockDivePost();
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
+			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
+			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
+			deserializedPostResponseContent.Location += " updated";
+			using StringContent updateDiveContent = new(JsonConvert.SerializeObject(deserializedPostResponseContent), Encoding.UTF8, "application/json");
+
+			using HttpResponseMessage updateResponse = await client.PutAsync($"api/dives", updateDiveContent);
+			using HttpResponseMessage getResponse = await client.GetAsync($"api/dives/{deserializedPostResponseContent.Id}");
+			string getResponseContent = await getResponse.Content.ReadAsStringAsync();
+			Dive deserializedGetResponseContent = JsonConvert.DeserializeObject<Dive>(getResponseContent);
+
+			Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
+			Assert.Equal(deserializedPostResponseContent.Location, deserializedGetResponseContent.Location);
+		}
+
+		[Fact]
+		public async Task UpdateDiveBadRequestIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			DivePost divePut = new MockDivePost {
+				Number = 10001 // This should throw a validation exception since the max number allowed is 10000
+			};
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePut), Encoding.UTF8, "application/json");
+			
+			using HttpResponseMessage putResponse = await client.PutAsync("api/dives", diveContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, putResponse.StatusCode);
+		}
+
+		[Fact]
 		public async Task DeleteDiveByIdNoContentIntegrationTestAsync() {
 			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
 				.WithWebHostBuilder(builder => {
