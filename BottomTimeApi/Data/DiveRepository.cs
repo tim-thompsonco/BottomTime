@@ -26,9 +26,7 @@ namespace BottomTimeApi.Data {
 		public async Task<IEnumerable<Dive>> GetDivesAsync(int pageNumber = 1, int divesPerPage = 10) {
 			if (pageNumber < 1) {
 				throw new InvalidOperationException("The page number cannot be less than 1.");
-			}
-
-			if (divesPerPage < 1) {
+			} else if (divesPerPage < 1) {
 				throw new InvalidOperationException("The dives per page cannot be less than 1.");
 			}
 
