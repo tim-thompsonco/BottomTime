@@ -19,13 +19,52 @@ namespace BottomTimeApiTests.Controllers {
 				.WithWebHostBuilder(builder => {
 				});
 			using HttpClient client = application.CreateClient();
-			using HttpResponseMessage response = await client.GetAsync("api/dives");
+			const int pageNumber = 1;
+			const int divesPerPage = 5;
+
+			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
-			IEnumerable<Dive> deserializedContent = JsonConvert.DeserializeObject<IEnumerable<Dive>>(responseContent);
+			List<Dive> deserializedContent = JsonConvert.DeserializeObject<List<Dive>>(responseContent);
 
 			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 			Assert.NotNull(deserializedContent);
-			Assert.NotEmpty(deserializedContent);
+			Assert.Equal(divesPerPage, deserializedContent.Count);
+		}
+
+		[Fact]
+		public async Task GetDivesBadRequestPageNumberIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			const int pageNumber = 0;
+			const int divesPerPage = 5;
+			const string expectedResponseMessage = "The page number cannot be less than 1.";
+
+			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			string responseContent = await response.Content.ReadAsStringAsync();
+			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+			Assert.Equal(expectedResponseMessage, deserializedResponseContent.Message);
+		}
+
+		[Fact]
+		public async Task GetDivesBadRequestDivesPerPageIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			const int pageNumber = 1;
+			const int divesPerPage = 0;
+			const string expectedResponseMessage = "The dives per page cannot be less than 1.";
+
+			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			string responseContent = await response.Content.ReadAsStringAsync();
+			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+			Assert.Equal(expectedResponseMessage, deserializedResponseContent.Message);
 		}
 
 		[Fact]
