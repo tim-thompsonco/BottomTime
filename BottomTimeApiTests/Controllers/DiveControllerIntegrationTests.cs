@@ -80,5 +80,37 @@ namespace BottomTimeApiTests.Controllers {
 
 			Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 		}
+
+		[Fact]
+		public async Task DeleteDiveByIdNoContentIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			DivePost divePost = new MockDivePost();
+			using StringContent diveContent = new StringContent(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
+			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
+			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
+
+			using HttpResponseMessage deleteResponse = await client.DeleteAsync($"api/dives/{deserializedPostResponseContent.Id}");
+			string deleteResponseContent = await deleteResponse.Content.ReadAsStringAsync();
+			Dive deserializedDeleteResponseContent = JsonConvert.DeserializeObject<Dive>(deleteResponseContent);
+
+			Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+		}
+
+		[Fact]
+		public async Task DeleteDiveByIdNotFoundIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			const int nonexistentId = 1; // The lowest ID number in ACC DB is 7, so this ID should never exist
+
+			using HttpResponseMessage response = await client.DeleteAsync($"api/dives/{nonexistentId}");
+
+			Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+		}
 	}
 }

@@ -25,19 +25,6 @@ namespace BottomTimeApiTests.Controllers {
 		}
 
 		[TestMethod]
-		public async Task AddDiveUnitTestFailsValidationAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-			DivePost divePost = new() { DiveSite = "A third dive site", Number = -1 };
-
-			try {
-				ActionResult<Dive> testActionResult = await controller.AddDiveAsync(divePost);
-			} catch (InvalidOperationException ex) {
-				Assert.IsTrue(ex.Message is "Invalid dive number. The dive number must be 1 or higher.");
-			}
-		}
-
-		[TestMethod]
 		public async Task UpdateDiveUnitTestSucceedsAsync() {
 			DiveRepositoryMock repository = new();
 			DiveController controller = new(repository, _mapper);
@@ -81,30 +68,6 @@ namespace BottomTimeApiTests.Controllers {
 			} catch (InvalidOperationException ex) {
 				Assert.IsTrue(ex.Message is "Dive number is too high. The maximum dive number is 10,000.");
 			}
-		}
-
-		[TestMethod]
-		public async Task DeleteDiveUnitTestSucceedsAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-			const int IdToDelete = 342;
-
-			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveId(IdToDelete);
-
-			Assert.IsTrue(testActionResult.Result is NoContentResult);
-			Assert.IsTrue(repository.TestDives.Count is 2);
-			Assert.IsTrue(repository.TestDives[0].Id != IdToDelete);
-		}
-
-		[TestMethod]
-		public async Task DeleteDiveUnitTestFailsAsync() {
-			DiveRepositoryMock repository = new();
-			DiveController controller = new(repository, _mapper);
-			const int nonExistentId = 345;
-
-			ActionResult<Dive> testActionResult = await controller.DeleteDiveByDiveId(nonExistentId);
-
-			Assert.IsTrue(testActionResult.Result is NotFoundResult);
 		}
 	}
 }
