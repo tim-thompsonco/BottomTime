@@ -12,10 +12,10 @@ namespace BottomTimeApi.Models {
 		public short EndAirPressure { get; set; }
 		public PressureType PressureType { get; set; }
 		public bool WearWetSuit { get; set; }
-		public WetSuitType WetSuitType { get; set; }
+		public WetSuitType? WetSuitType { get; set; }
 		public short? WetSuitThickness { get; set; }
 		public bool WearDrySuit { get; set; }
-		public DrySuitType DrySuitType { get; set; }
+		public DrySuitType? DrySuitType { get; set; }
 		public short? DrySuitNumOfLiners { get; set; }
 		public short MaxDepth { get; set; }
 		public short? AvgDepth { get; set; }
