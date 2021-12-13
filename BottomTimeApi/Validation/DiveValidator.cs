@@ -7,6 +7,7 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
+			ValidateDiveDrySuitNumOfLiners(dive);
 			ValidateDiveMaxDepth(dive);
 			ValidateDiveAvgDepth(dive);
 			ValidateDiveWaterTemperature(dive);
@@ -40,6 +41,12 @@ namespace BottomTimeApi.Validation {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be negative.");
 			} else if (dive.EndAirPressure > dive.StartAirPressure) {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be greater than start air pressure.");
+			}
+		}
+
+		private static void ValidateDiveDrySuitNumOfLiners(Dive dive) {
+			if (dive.DrySuitNumOfLiners < 0) {
+				throw new InvalidOperationException("Invalid dry suit number of liners. Dry suit number of cannot be negative.");
 			}
 		}
 
