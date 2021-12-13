@@ -38,6 +38,8 @@ namespace BottomTimeApi.Validation {
 		private static void ValidateDiveEndAirPressure(Dive dive) {
 			if (dive.EndAirPressure < 0) {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be negative.");
+			} else if (dive.EndAirPressure > dive.StartAirPressure) {
+				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be greater than start air pressure.");
 			}
 		}
 
