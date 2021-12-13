@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BottomTimeApi.Middleware {
 	public class ExceptionMiddleware {
-		private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+		private readonly JsonSerializerOptions _jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 		private readonly ILogger<ExceptionMiddleware> _logger;
 		private readonly RequestDelegate _next;
 

@@ -1,4 +1,4 @@
-﻿namespace BottomTimeApi.Models.Enums {
+﻿namespace BottomTimeApi.Enums {
 	public enum TankPressureType {
 		CubicFeet,
 		Liters
