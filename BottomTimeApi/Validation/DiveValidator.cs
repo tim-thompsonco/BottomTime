@@ -4,15 +4,23 @@ using System;
 namespace BottomTimeApi.Validation {
 	public class DiveValidator {
 		public static void ValidateDive(Dive dive) {
+			ValidateDiveDate(dive);
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
+			ValidateDiveDrySuitNumOfLiners(dive);
 			ValidateDiveMaxDepth(dive);
 			ValidateDiveAvgDepth(dive);
 			ValidateDiveWaterTemperature(dive);
 			ValidateDiveVisibility(dive);
 			ValidateDiveWeight(dive);
 			ValidateDiveTankSize(dive);
+		}
+
+		private static void ValidateDiveDate(Dive dive) {
+			if (dive.Date > DateTime.UtcNow) {
+				throw new InvalidOperationException("Dive date cannot be a date in the future.");
+			}
 		}
 
 		private static void ValidateDiveNumber(Dive dive) {
@@ -40,6 +48,12 @@ namespace BottomTimeApi.Validation {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be negative.");
 			} else if (dive.EndAirPressure > dive.StartAirPressure) {
 				throw new InvalidOperationException("Invalid dive end air pressure. End air pressure cannot be greater than start air pressure.");
+			}
+		}
+
+		private static void ValidateDiveDrySuitNumOfLiners(Dive dive) {
+			if (dive.DrySuitNumOfLiners < 0) {
+				throw new InvalidOperationException("Invalid dry suit number of liners. Dry suit number of cannot be negative.");
 			}
 		}
 

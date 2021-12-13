@@ -8,6 +8,56 @@ namespace BottomTimeApiTests.Validation {
 	[TestClass]
 	public class DiveValidationUnitTests {
 		[TestMethod]
+		public void ValidateDiveSucceedsWhenDiveDateIsNowTest() {
+			Dive dive = new MockDive {
+				Date = DateTime.UtcNow
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenDiveDateIsInPastTest() {
+			Dive dive = new MockDive {
+				Date = DateTime.UtcNow.AddDays(-1)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveDateIsInFutureTest() {
+			Dive dive = new MockDive {
+				Date = DateTime.UtcNow.AddDays(1)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Dive date cannot be a date in the future.");
+		}
+
+		[TestMethod]
 		public void ValidateDiveSucceedsWhenDiveNumberAtMaxValueTest() {
 			Dive dive = new MockDive {
 				Number = 10000
@@ -245,6 +295,56 @@ namespace BottomTimeApiTests.Validation {
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
 			Assert.IsTrue(exception.Message is "Invalid dive end air pressure. End air pressure cannot be greater than start air pressure.");
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenDiveDrySuitNumOfLinersIsZeroTest() {
+			Dive dive = new MockDive {
+				DrySuitNumOfLiners = 0
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenDiveDrySuitNumOfLinersIsPositiveTest() {
+			Dive dive = new MockDive {
+				DrySuitNumOfLiners = 1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenDiveDrySuitNumOfLinersIsNegativeTest() {
+			Dive dive = new MockDive {
+				DrySuitNumOfLiners = -1
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.IsTrue(exception.Message is "Invalid dry suit number of liners. Dry suit number of cannot be negative.");
 		}
 
 		[TestMethod]
