@@ -1,4 +1,5 @@
 ﻿using BottomTimeApi;
+using BottomTimeApi.Errors;
 using BottomTimeApi.Models;
 using BottomTimeApiTests.Data.MockData;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -18,13 +19,52 @@ namespace BottomTimeApiTests.Controllers {
 				.WithWebHostBuilder(builder => {
 				});
 			using HttpClient client = application.CreateClient();
-			using HttpResponseMessage response = await client.GetAsync("api/dives");
+			const int pageNumber = 1;
+			const int divesPerPage = 5;
+
+			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
-			IEnumerable<Dive> deserializedContent = JsonConvert.DeserializeObject<IEnumerable<Dive>>(responseContent);
+			List<Dive> deserializedContent = JsonConvert.DeserializeObject<List<Dive>>(responseContent);
 
 			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 			Assert.NotNull(deserializedContent);
-			Assert.NotEmpty(deserializedContent);
+			Assert.Equal(divesPerPage, deserializedContent.Count);
+		}
+
+		[Fact]
+		public async Task GetDivesBadRequestPageNumberIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			const int pageNumber = 0;
+			const int divesPerPage = 5;
+			const string expectedResponseMessage = "The page number cannot be less than 1.";
+
+			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			string responseContent = await response.Content.ReadAsStringAsync();
+			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+			Assert.Equal(expectedResponseMessage, deserializedResponseContent.Message);
+		}
+
+		[Fact]
+		public async Task GetDivesBadRequestDivesPerPageIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			const int pageNumber = 1;
+			const int divesPerPage = 0;
+			const string expectedResponseMessage = "The dives per page cannot be less than 1.";
+
+			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			string responseContent = await response.Content.ReadAsStringAsync();
+			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+			Assert.Equal(expectedResponseMessage, deserializedResponseContent.Message);
 		}
 
 		[Fact]
@@ -44,6 +84,25 @@ namespace BottomTimeApiTests.Controllers {
 			Assert.Equal(divePost.Number, deserializedContent.Number);
 			Assert.Equal(divePost.BottomTime, deserializedContent.BottomTime);
 			Assert.Equal(divePost.AvgDepth, deserializedContent.AvgDepth);
+
+			// Cleanup dive that was created to avoid bloating the size of ACC DB
+			await client.DeleteAsync($"api/dives/{deserializedContent.Id}");
+		}
+
+		[Fact]
+		public async Task PostDiveBadRequestIntegrationTestAsync() {
+			using WebApplicationFactory<Program> application = new WebApplicationFactory<Program>()
+				.WithWebHostBuilder(builder => {
+				});
+			using HttpClient client = application.CreateClient();
+			DivePost divePost = new MockDivePost {
+				Location = string.Empty // This is a required field for DivePost
+			};
+			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
+
+			using HttpResponseMessage response = await client.PostAsync("api/dives", diveContent);
+
+			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 		}
 
 		[Fact]
@@ -114,10 +173,14 @@ namespace BottomTimeApiTests.Controllers {
 				Number = 10001 // This should throw a validation exception since the max number allowed is 10000
 			};
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePut), Encoding.UTF8, "application/json");
-			
+			const string expectedResponseMessage = "Dive number is too high. The maximum dive number is 10,000.";
+
 			using HttpResponseMessage putResponse = await client.PutAsync("api/dives", diveContent);
+			string putResponseContent = await putResponse.Content.ReadAsStringAsync();
+			ApiExceptionMessage deserializedPutResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(putResponseContent);
 
 			Assert.Equal(HttpStatusCode.BadRequest, putResponse.StatusCode);
+			Assert.Equal(expectedResponseMessage, deserializedPutResponseContent.Message);
 		}
 
 		[Fact]

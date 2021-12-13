@@ -3,7 +3,6 @@ using BottomTimeApi.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace BottomTimeApi {
 	public class Startup {
@@ -15,17 +14,6 @@ namespace BottomTimeApi {
 
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddApplicationServices(_config);
-
-			services.AddControllers()
-				.AddNewtonsoftJson(options => {
-					options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
-				});
-
-			services.AddAutoMapper(typeof(Startup));
-
-			services.AddSwaggerGen(c => {
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "BottomTimeApi", Version = "v1" });
-			});
 		}
 
 		public void Configure(IApplicationBuilder app) {
