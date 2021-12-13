@@ -4,6 +4,7 @@ using System;
 namespace BottomTimeApi.Validation {
 	public class DiveValidator {
 		public static void ValidateDive(Dive dive) {
+			ValidateDiveDate(dive);
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
@@ -14,6 +15,12 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveVisibility(dive);
 			ValidateDiveWeight(dive);
 			ValidateDiveTankSize(dive);
+		}
+
+		private static void ValidateDiveDate(Dive dive) {
+			if (dive.Date > DateTime.UtcNow) {
+				throw new InvalidOperationException("Dive date cannot be a date in the future.");
+			}
 		}
 
 		private static void ValidateDiveNumber(Dive dive) {
