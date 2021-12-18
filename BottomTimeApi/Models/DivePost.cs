@@ -22,35 +22,42 @@ namespace BottomTimeApi.Models {
 		[Required]
 		[DefaultValue(1000)]
 		public short EndAirPressure { get; set; }
+		[Required]
+		[DefaultValue(PressureType.Psi)]
 		public PressureType PressureType { get; set; }
-		public bool WearWetSuit { get; set; }
-		public WetSuitType? WetSuitType { get; set; }
-		public short? WetSuitThickness { get; set; }
-		public bool WearDrySuit { get; set; }
-		public DrySuitType? DrySuitType { get; set; }
-		public short? DrySuitNumOfLiners { get; set; }
+		[Required]
+		[DefaultValue(WetSuitType.None)]
+		public WetSuitType WetSuitType { get; set; }
+		public short WetSuitThickness { get; set; }
+		[Required]
+		[DefaultValue(DrySuitType.None)]
+		public DrySuitType DrySuitType { get; set; }
+		public short DrySuitNumOfLiners { get; set; }
 		[Required]
 		[DefaultValue(45)]
 		public short MaxDepth { get; set; }
 		[DefaultValue(30)]
 		public short AvgDepth { get; set; }
 		[DefaultValue("00:00:00")]
-		public TimeSpan? SurfaceIntervalTime { get; set; }
+		public TimeSpan SurfaceIntervalTime { get; set; }
 		[DefaultValue("00:45:00")]
 		public TimeSpan BottomTime { get; set; }
-		public bool DidSafetyStop { get; set; }
+		[Required]
 		[DefaultValue("00:03:00")]
-		public TimeSpan? SafetyStopTime { get; set; }
+		public TimeSpan SafetyStopTime { get; set; }
 		[DefaultValue("A")]
 		public string PressureGroupStart { get; set; }
 		[DefaultValue("Z")]
 		public string PressureGroupEnd { get; set; }
+		[Required]
 		[DefaultValue("00:00:00")]
-		public TimeSpan? ResidualNitrogenTime { get; set; }
+		public TimeSpan ResidualNitrogenTime { get; set; }
+		[Required]
 		[DefaultValue("00:00:00")]
-		public TimeSpan? AbsoluteBottomTime { get; set; }
+		public TimeSpan AbsoluteBottomTime { get; set; }
+		[Required]
 		[DefaultValue("00:00:00")]
-		public TimeSpan? TotalBottomTime { get; set; }
+		public TimeSpan TotalBottomTime { get; set; }
 		[DefaultValue(50)]
 		public short WaterTemperature { get; set; }
 		public TemperatureType TemperatureType { get; set; }

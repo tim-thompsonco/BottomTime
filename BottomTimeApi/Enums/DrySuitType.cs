@@ -1,6 +1,7 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum DrySuitType {
-		Shell,
-		Neoprene
+		None = 0,
+		Shell = 1,
+		Neoprene = 2
 	}
 }

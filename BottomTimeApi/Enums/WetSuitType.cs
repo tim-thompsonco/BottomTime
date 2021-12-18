@@ -1,7 +1,8 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum WetSuitType {
-		Short,
-		Full,
-		TwoPiece
+		None = 0,
+		Short = 1,
+		Full = 2,
+		TwoPiece = 3
 	}
 }

@@ -1,8 +1,8 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum DiveBuddyCertificationType {
-		PADI,
-		NAUI,
-		SSI,
-		Other
+		PADI = 0,
+		NAUI = 1,
+		SSI = 2,
+		Other = 3
 	}
 }

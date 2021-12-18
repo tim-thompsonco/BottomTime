@@ -1,6 +1,6 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum TemperatureType {
-		Fahrenheit,
-		Celsius
+		Fahrenheit = 0,
+		Celsius = 1
 	}
 }
