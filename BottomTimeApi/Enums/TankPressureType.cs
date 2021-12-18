@@ -1,6 +1,6 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum TankPressureType {
-		CubicFeet,
-		Liters
+		CubicFeet = 0,
+		Liters = 1
 	}
 }

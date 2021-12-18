@@ -1,6 +1,6 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum VisibilityType {
-		Feet,
-		Meters
+		Feet = 0,
+		Meters = 1
 	}
 }
