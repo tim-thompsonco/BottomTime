@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BottomTimeApi\BottomTimeApi.csproj" />
+    <ProjectReference Include="..\BottomTimeApi\BottomTimeDives.csproj" />
   </ItemGroup>
 
 </Project>
