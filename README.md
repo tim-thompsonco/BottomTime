@@ -1,5 +1,5 @@
 <h2>Bottom Time API</h2>
-<p>This is a .NET Core Web API that I am building both as a means to back up my physical dive log and also to deepen my skill set with .NET. It is designed using the OpenAPI / Swagger v1 specification. This API will allow for CRUD operations pertaining to dives for a particular user. Once there is basic functionality in place for a user to consume the API, I will post API documentation here.</p>
+<p>This is a .NET Core Web API that I am building both as a means to back up my physical dive log and also to deepen my skill set with .NET. It is designed using the OpenAPI / Swagger v1 specification. This API will allow for CRUD operations pertaining to dives for a particular user and will be consumed by a React front end that will be created once the API is ready to use.</p>
 
 <h2>Build Pipeline</h2>
 <p>Acceptance environment points to https://bottomtimeapi-acc.herokuapp.com/swagger/index.html.</p>

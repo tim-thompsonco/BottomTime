@@ -28,6 +28,8 @@ namespace BottomTimeApi.Data {
 				throw new InvalidOperationException("The page number cannot be less than 1.");
 			} else if (divesPerPage < 1) {
 				throw new InvalidOperationException("The dives per page cannot be less than 1.");
+			} else if (divesPerPage > 100) {
+				throw new InvalidOperationException("The dives per page cannot be greater than 100.");
 			}
 
 			return await _context.Dives
