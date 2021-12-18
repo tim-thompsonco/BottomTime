@@ -5,9 +5,9 @@
 <p>Create Auth and Client microservices that will be added to the solution to utilize a microservices architecture in a monorepo. The React Client microservice will consume the Auth and API microservices to allow users to create and manage dive logs through a SPA front end.</p>
 
 <h2>Build Pipeline</h2>
-<p>Acceptance environment points to https://bottomtimedives-acc.herokuapp.com/swagger/index.html.</p>
+<p>QA environment points to https://bottomtimedives-qa.herokuapp.com/swagger/index.html.</p>
 <p>Production environment points to https://bottomtimedives.herokuapp.com/swagger/index.html.</p>
-<p>For all code changes, a branch is cut off acceptance for each ticket, which is then squashed and merged into acceptance once the ticket is complete. The acceptance environment is then tested first prior to merging acceptance into production to avoid downtime from breaking changes.</p>
+<p>For all code changes, a branch is cut off QA for each ticket, which is then squashed and merged into QA once the ticket is complete. The QA environment is then tested first prior to merging QA into production to avoid downtime from breaking changes.</p>
 
 <h2>Built With</h2>
   <ul>
