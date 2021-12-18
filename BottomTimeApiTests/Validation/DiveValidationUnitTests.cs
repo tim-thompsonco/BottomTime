@@ -683,5 +683,225 @@ namespace BottomTimeApiTests.Validation {
 			Assert.IsTrue(exception is InvalidOperationException);
 			Assert.AreEqual("Invalid TankSize value. TankSize cannot be negative.", exception.Message);
 		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenTimeSpanIsZeroTest() {
+			Dive dive = new MockDive {
+				SurfaceIntervalTime = new TimeSpan(0, 0, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenSurfaceIntervalTimeIsValidTest() {
+			Dive dive = new MockDive {
+				SurfaceIntervalTime = new TimeSpan(1, 0, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenSurfaceIntervalTimeIsNotValidTest() {
+			Dive dive = new MockDive {
+				SurfaceIntervalTime = new TimeSpan(-1, 0, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.AreEqual("Invalid SurfaceIntervalTime value. Days cannot be negative.", exception.Message);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenBottomTimeIsValidTest() {
+			Dive dive = new MockDive {
+				BottomTime = new TimeSpan(0, 1, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenBottomTimeIsNotValidTest() {
+			Dive dive = new MockDive {
+				BottomTime = new TimeSpan(0, -1, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.AreEqual("Invalid BottomTime value. Hours cannot be negative.", exception.Message);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenSafetyStopTimeIsValidTest() {
+			Dive dive = new MockDive {
+				SafetyStopTime = new TimeSpan(0, 0, 3, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenSafetyStopTimeIsNotValidTest() {
+			Dive dive = new MockDive {
+				SafetyStopTime = new TimeSpan(0, 0, -3, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.AreEqual("Invalid SafetyStopTime value. Minutes cannot be negative.", exception.Message);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenResidualNitrogenTimeIsValidTest() {
+			Dive dive = new MockDive {
+				ResidualNitrogenTime = new TimeSpan(0, 0, 0, 10)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenResidualNitrogenTimeIsNotValidTest() {
+			Dive dive = new MockDive {
+				ResidualNitrogenTime = new TimeSpan(0, 0, 0, -10)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.AreEqual("Invalid ResidualNitrogenTime value. Seconds cannot be negative.", exception.Message);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenAbsoluteBottomTimeIsValidTest() {
+			Dive dive = new MockDive {
+				AbsoluteBottomTime = new TimeSpan(0, 0, 10, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenAbsoluteBottomTimeIsNotValidTest() {
+			Dive dive = new MockDive {
+				AbsoluteBottomTime = new TimeSpan(0, 0, -10, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.AreEqual("Invalid AbsoluteBottomTime value. Minutes cannot be negative.", exception.Message);
+		}
+
+		[TestMethod]
+		public void ValidateDiveSucceedsWhenTotalBottomTimeIsValidTest() {
+			Dive dive = new MockDive {
+				TotalBottomTime = new TimeSpan(0, 1, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNull(exception);
+		}
+
+		[TestMethod]
+		public void ValidateDiveFailsWhenTotalBottomTimeIsNotValidTest() {
+			Dive dive = new MockDive {
+				TotalBottomTime = new TimeSpan(0, -1, 0, 0)
+			};
+			Exception exception = null;
+
+			try {
+				DiveValidator.ValidateDive(dive);
+			} catch (Exception ex) {
+				exception = ex;
+			}
+
+			Assert.IsNotNull(exception);
+			Assert.IsTrue(exception is InvalidOperationException);
+			Assert.AreEqual("Invalid TotalBottomTime value. Hours cannot be negative.", exception.Message);
+		}
 	}
 }

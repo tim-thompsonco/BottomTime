@@ -10,6 +10,12 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveEndAirPressure(dive);
 			ValidateDiveMaxDepth(dive);
 			ValidateDiveAvgDepth(dive);
+			ValidateDiveTimeSpan(dive.SurfaceIntervalTime, nameof(dive.SurfaceIntervalTime));
+			ValidateDiveTimeSpan(dive.BottomTime, nameof(dive.BottomTime));
+			ValidateDiveTimeSpan(dive.SafetyStopTime, nameof(dive.SafetyStopTime));
+			ValidateDiveTimeSpan(dive.ResidualNitrogenTime, nameof(dive.ResidualNitrogenTime));
+			ValidateDiveTimeSpan(dive.AbsoluteBottomTime, nameof(dive.AbsoluteBottomTime));
+			ValidateDiveTimeSpan(dive.TotalBottomTime, nameof(dive.TotalBottomTime));
 			ValidateDivePropertyIsNotNegative(dive.WaterTemperature, nameof(dive.WaterTemperature));
 			ValidateDivePropertyIsNotNegative(dive.DrySuitNumOfLiners, nameof(dive.DrySuitNumOfLiners));
 			ValidateDivePropertyIsNotNegative(dive.Visibility, nameof(dive.Visibility));
@@ -62,6 +68,18 @@ namespace BottomTimeApi.Validation {
 		private static void ValidateDiveMaxDepth(Dive dive) {
 			if (dive.MaxDepth < 0) {
 				throw new InvalidOperationException("Invalid dive max depth. Max depth cannot be negative.");
+			}
+		}
+
+		private static void ValidateDiveTimeSpan(TimeSpan divePropertyValue, string divePropertyName) {
+			if (divePropertyValue.Days < 0) {
+				throw new InvalidOperationException($"Invalid {divePropertyName} value. {nameof(divePropertyValue.Days)} cannot be negative.");
+			} else if (divePropertyValue.Hours < 0) {
+				throw new InvalidOperationException($"Invalid {divePropertyName} value. {nameof(divePropertyValue.Hours)} cannot be negative.");
+			} else if (divePropertyValue.Minutes < 0) {
+				throw new InvalidOperationException($"Invalid {divePropertyName} value. {nameof(divePropertyValue.Minutes)} cannot be negative.");
+			} else if (divePropertyValue.Seconds < 0) {
+				throw new InvalidOperationException($"Invalid {divePropertyName} value. {nameof(divePropertyValue.Seconds)} cannot be negative.");
 			}
 		}
 
