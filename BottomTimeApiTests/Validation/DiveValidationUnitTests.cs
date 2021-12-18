@@ -54,7 +54,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Dive date cannot be a date in the future.");
+			Assert.AreEqual("Dive date cannot be a date in the future.", exception.Message);
 		}
 
 		[TestMethod]
@@ -120,7 +120,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Dive number is too high. The maximum dive number is 10,000.");
+			Assert.AreEqual("Dive number is too high. The maximum dive number is 10,000.", exception.Message);
 		}
 
 		[TestMethod]
@@ -138,7 +138,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive number. The dive number must be 1 or higher.");
+			Assert.AreEqual("Invalid dive number. The dive number must be 1 or higher.", exception.Message);
 		}
 
 		[TestMethod]
@@ -173,7 +173,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive start air pressure. Start air pressure cannot be 0.");
+			Assert.AreEqual("Invalid dive start air pressure. Start air pressure cannot be 0.", exception.Message);
 		}
 
 		[TestMethod]
@@ -191,7 +191,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive start air pressure. Start air pressure cannot be negative.");
+			Assert.AreEqual("Invalid dive start air pressure. Start air pressure cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -275,7 +275,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive end air pressure. End air pressure cannot be negative.");
+			Assert.AreEqual("Invalid dive end air pressure. End air pressure cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -294,7 +294,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive end air pressure. End air pressure cannot be greater than start air pressure.");
+			Assert.AreEqual("Invalid dive end air pressure. End air pressure cannot be greater than start air pressure.", exception.Message);
 		}
 
 		[TestMethod]
@@ -344,7 +344,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dry suit number of liners. Dry suit number of cannot be negative.");
+			Assert.AreEqual("Invalid DrySuitNumOfLiners value. DrySuitNumOfLiners cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -395,7 +395,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive max depth. Max depth cannot be negative.");
+			Assert.AreEqual("Invalid dive max depth. Max depth cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -462,7 +462,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive average depth. Average depth cannot be negative.");
+			Assert.AreEqual("Invalid dive average depth. Average depth cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -481,7 +481,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive average depth. Average depth cannot be greater than max depth.");
+			Assert.AreEqual("Invalid dive average depth. Average depth cannot be greater than max depth.", exception.Message);
 		}
 
 		[TestMethod]
@@ -531,7 +531,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid water temperature. Water temperature cannot be negative.");
+			Assert.AreEqual("Invalid WaterTemperature value. WaterTemperature cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -581,7 +581,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive visibility. Visibility cannot be negative.");
+			Assert.AreEqual("Invalid Visibility value. Visibility cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -631,7 +631,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid dive weight. Weight cannot be negative.");
+			Assert.AreEqual("Invalid Weight value. Weight cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
@@ -681,7 +681,7 @@ namespace BottomTimeApiTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.IsTrue(exception.Message is "Invalid tank size. Tank size cannot be negative.");
+			Assert.AreEqual("Invalid TankSize value. TankSize cannot be negative.", exception.Message);
 		}
 	}
 }

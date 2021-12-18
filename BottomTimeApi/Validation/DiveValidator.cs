@@ -8,13 +8,13 @@ namespace BottomTimeApi.Validation {
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
-			ValidateDiveDrySuitNumOfLiners(dive);
 			ValidateDiveMaxDepth(dive);
 			ValidateDiveAvgDepth(dive);
-			ValidateDiveWaterTemperature(dive);
-			ValidateDiveVisibility(dive);
-			ValidateDiveWeight(dive);
-			ValidateDiveTankSize(dive);
+			ValidateDivePropertyIsNotNegative(dive.WaterTemperature, nameof(dive.WaterTemperature));
+			ValidateDivePropertyIsNotNegative(dive.DrySuitNumOfLiners, nameof(dive.DrySuitNumOfLiners));
+			ValidateDivePropertyIsNotNegative(dive.Visibility, nameof(dive.Visibility));
+			ValidateDivePropertyIsNotNegative(dive.Weight, nameof(dive.Weight));
+			ValidateDivePropertyIsNotNegative(dive.TankSize, nameof(dive.TankSize));
 		}
 
 		private static void ValidateDiveDate(Dive dive) {
@@ -51,9 +51,11 @@ namespace BottomTimeApi.Validation {
 			}
 		}
 
-		private static void ValidateDiveDrySuitNumOfLiners(Dive dive) {
-			if (dive.DrySuitNumOfLiners < 0) {
-				throw new InvalidOperationException("Invalid dry suit number of liners. Dry suit number of cannot be negative.");
+		private static void ValidateDiveAvgDepth(Dive dive) {
+			if (dive.AvgDepth < 0) {
+				throw new InvalidOperationException("Invalid dive average depth. Average depth cannot be negative.");
+			} else if (dive.AvgDepth > dive.MaxDepth) {
+				throw new InvalidOperationException("Invalid dive average depth. Average depth cannot be greater than max depth.");
 			}
 		}
 
@@ -63,35 +65,9 @@ namespace BottomTimeApi.Validation {
 			}
 		}
 
-		private static void ValidateDiveAvgDepth(Dive dive) {
-			if (dive.AvgDepth < 0) {
-				throw new InvalidOperationException("Invalid dive average depth. Average depth cannot be negative.");
-			} else if (dive.AvgDepth > dive.MaxDepth) {
-				throw new InvalidOperationException("Invalid dive average depth. Average depth cannot be greater than max depth.");
-			}
-		}
-
-		private static void ValidateDiveWaterTemperature(Dive dive) {
-			if (dive.WaterTemperature < 0) {
-				throw new InvalidOperationException("Invalid water temperature. Water temperature cannot be negative.");
-			}
-		}
-
-		private static void ValidateDiveVisibility(Dive dive) {
-			if (dive.Visibility < 0) {
-				throw new InvalidOperationException("Invalid dive visibility. Visibility cannot be negative.");
-			}
-		}
-
-		private static void ValidateDiveWeight(Dive dive) {
-			if (dive.Weight < 0) {
-				throw new InvalidOperationException("Invalid dive weight. Weight cannot be negative.");
-			}
-		}
-
-		private static void ValidateDiveTankSize(Dive dive) {
-			if (dive.TankSize < 0) {
-				throw new InvalidOperationException("Invalid tank size. Tank size cannot be negative.");
+		private static void ValidateDivePropertyIsNotNegative(short divePropertyValue, string divePropertyName) {
+			if (divePropertyValue < 0) {
+				throw new InvalidOperationException($"Invalid {divePropertyName} value. {divePropertyName} cannot be negative.");
 			}
 		}
 	}
