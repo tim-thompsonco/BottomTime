@@ -1,0 +1,79 @@
+UPDATE dives
+SET surface_interval_time = '00:00:00'
+WHERE surface_interval_time IS NULL;
+
+ALTER TABLE dives
+ALTER COLUMN surface_interval_time SET NOT NULL;
+
+UPDATE dives
+SET safety_stop_time = '00:00:00'
+WHERE safety_stop_time IS NULL;
+
+ALTER TABLE dives
+ALTER COLUMN safety_stop_time SET NOT NULL;
+
+UPDATE dives
+SET residual_nitrogen_time = '00:00:00'
+WHERE residual_nitrogen_time IS NULL;
+
+ALTER TABLE dives
+ALTER COLUMN residual_nitrogen_time SET NOT NULL;
+
+UPDATE dives
+SET absolute_bottom_time = '00:00:00'
+WHERE absolute_bottom_time IS NULL;
+
+ALTER TABLE dives
+ALTER COLUMN absolute_bottom_time SET NOT NULL;
+
+UPDATE dives
+SET total_bottom_time = '00:00:00'
+WHERE total_bottom_time IS NULL;
+
+ALTER TABLE dives
+ALTER COLUMN total_bottom_time SET NOT NULL;
+
+ALTER TABLE dives
+DROP COLUMN did_safety_stop;
+
+UPDATE dives
+SET wet_suit_type = 3
+WHERE wet_suit_type = 2;
+
+UPDATE dives
+SET wet_suit_type = 2
+WHERE wet_suit_type = 1;
+
+UPDATE dives
+SET wet_suit_type = 1
+WHERE wet_suit_type = 0;
+
+UPDATE dives
+SET wet_suit_type = 0
+WHERE wet_suit_type IS NULL;
+
+UPDATE dives
+SET dry_suit_type = 2
+WHERE dry_suit_type = 1;
+
+UPDATE dives
+SET dry_suit_type = 1
+WHERE dry_suit_type = 0;
+
+UPDATE dives
+SET dry_suit_type = 0
+WHERE dry_suit_type IS NULL;
+
+UPDATE dives
+SET wet_suit_thickness = 0
+WHERE wet_suit_thickness IS NULL;
+
+UPDATE dives
+SET dry_suit_num_of_liners = 0
+WHERE dry_suit_num_of_liners IS NULL;
+
+ALTER TABLE dives
+DROP COLUMN wear_wet_suit;
+
+ALTER TABLE dives
+DROP COLUMN wear_dry_suit;

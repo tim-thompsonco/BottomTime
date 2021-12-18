@@ -1,6 +1,6 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum PressureType {
-		Psi,
-		Bar
+		Psi = 0,
+		Bar = 1
 	}
 }

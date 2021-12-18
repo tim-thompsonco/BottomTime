@@ -1,6 +1,6 @@
 ﻿namespace BottomTimeApi.Enums {
 	public enum WeightType {
-		Pounds,
-		Kilograms
+		Pounds = 0,
+		Kilograms = 1
 	}
 }
