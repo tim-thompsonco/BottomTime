@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace BottomTimeDives.Controllers {
-	[Route("api/dives")]
+	[Route("dives")]
 	[ApiController]
 	public class DiveController : ControllerBase {
 		private readonly IDiveRepository _diveRepository;
@@ -20,7 +20,7 @@ namespace BottomTimeDives.Controllers {
 			_mapper = mapper;
 		}
 
-		// GET: api/dives
+		// GET: dives
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		public async Task<ActionResult<List<Dive>>> GetDivesAsync(int pageNumber = 1, int divesPerPage = 10) {
@@ -29,7 +29,7 @@ namespace BottomTimeDives.Controllers {
 			return Ok(dives.ToList());
 		}
 
-		// POST: api/dives
+		// POST: dives
 		[HttpPost]
 		[ProducesResponseType(typeof(Dive), StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,7 +43,7 @@ namespace BottomTimeDives.Controllers {
 			return CreatedAtRoute("GetDiveByDiveId", new { id = dive.Id }, dive);
 		}
 
-		// GET: api/dives/5
+		// GET: dives/{id}
 		[HttpGet("{id}", Name = "GetDiveByDiveId")]
 		[ProducesResponseType(typeof(Dive), StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,7 +53,7 @@ namespace BottomTimeDives.Controllers {
 			return dive == null ? NotFound() : Ok(dive);
 		}
 
-		// PUT: api/dives
+		// PUT: dives
 		[HttpPut]
 		[ProducesResponseType(typeof(Dive), StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,7 +65,7 @@ namespace BottomTimeDives.Controllers {
 			return NoContent();
 		}
 
-		// DELETE: api/dives/5
+		// DELETE: dives/{id}
 		[HttpDelete("{id}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
