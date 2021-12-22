@@ -11,9 +11,11 @@ namespace BottomTimeDives.Models {
 		[Required]
 		public DateTime Date { get; set; }
 		[Required]
+		[MaxLength(50)]
 		[DefaultValue("Sample dive location")]
 		public string Location { get; set; }
 		[Required]
+		[MaxLength(50)]
 		[DefaultValue("Sample dive site")]
 		public string DiveSite { get; set; }
 		[Required]
@@ -38,43 +40,50 @@ namespace BottomTimeDives.Models {
 		public short MaxDepth { get; set; }
 		[DefaultValue(30)]
 		public short AvgDepth { get; set; }
-		[DefaultValue("00:00:00")]
+		[DefaultValue("01:05:00:00")]
 		public TimeSpan SurfaceIntervalTime { get; set; }
 		[DefaultValue("00:45:00")]
 		public TimeSpan BottomTime { get; set; }
 		[Required]
 		[DefaultValue("00:03:00")]
 		public TimeSpan SafetyStopTime { get; set; }
+		[MaxLength(1)]
 		[DefaultValue("A")]
-		public string PressureGroupStart { get; set; }
+		public string PressureGroupStart { get; set; } = string.Empty;
+		[MaxLength(1)]
 		[DefaultValue("Z")]
-		public string PressureGroupEnd { get; set; }
-		[Required]
+		public string PressureGroupEnd { get; set; } = string.Empty;
 		[DefaultValue("00:00:00")]
-		public TimeSpan ResidualNitrogenTime { get; set; }
-		[Required]
+		public TimeSpan ResidualNitrogenTime { get; set; } = new TimeSpan(0, 0, 0);
 		[DefaultValue("00:00:00")]
-		public TimeSpan AbsoluteBottomTime { get; set; }
-		[Required]
+		public TimeSpan AbsoluteBottomTime { get; set; } = new TimeSpan(0, 0, 0);
 		[DefaultValue("00:00:00")]
-		public TimeSpan TotalBottomTime { get; set; }
+		public TimeSpan TotalBottomTime { get; set; } = new TimeSpan(0, 0, 0);
 		[DefaultValue(50)]
 		public short WaterTemperature { get; set; }
 		public TemperatureType TemperatureType { get; set; }
 		[DefaultValue(20)]
 		public short Visibility { get; set; }
 		public VisibilityType VisibilityType { get; set; }
+		[Required]
 		[DefaultValue(20)]
 		public short Weight { get; set; }
+		[Required]
 		public WeightType WeightType { get; set; }
+		[Required]
 		[DefaultValue(80)]
 		public short TankSize { get; set; }
+		[Required]
 		public TankType TankType { get; set; }
+		[Required]
 		public TankPressureType TankPressureType { get; set; }
+		[MaxLength(2000)]
 		[DefaultValue("What a great dive!")]
 		public string DiveComments { get; set; }
+		[MaxLength(50)]
 		[DefaultValue("Sample Dive Buddy")]
 		public string DiveBuddy { get; set; }
+		[MaxLength(25)]
 		[DefaultValue("PADI001")]
 		public string DiveBuddyCertificationNumber { get; set; }
 		public DiveBuddyCertificationType DiveBuddyCertificationType { get; set; }
