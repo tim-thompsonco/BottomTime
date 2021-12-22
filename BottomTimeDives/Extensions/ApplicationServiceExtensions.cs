@@ -2,7 +2,6 @@ using BottomTimeDives.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System;
 
@@ -34,10 +33,6 @@ namespace BottomTimeDives.Extensions {
 		private static IServiceCollection ConfigureSwaggerServices(IServiceCollection services) {
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "BottomTimeDives", Version = "v1" });
-				c.MapType<TimeSpan>(() => new OpenApiSchema {
-					Type = "string",
-					Example = new OpenApiString("00:00:00")
-				});
 			});
 			services.AddSwaggerGenNewtonsoftSupport();
 
