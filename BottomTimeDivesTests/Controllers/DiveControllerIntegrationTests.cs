@@ -22,7 +22,7 @@ namespace BottomTimeDivesTests.Controllers {
 			const int pageNumber = 1;
 			const int divesPerPage = 5;
 
-			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			using HttpResponseMessage response = await client.GetAsync($"dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
 			List<Dive> deserializedContent = JsonConvert.DeserializeObject<List<Dive>>(responseContent);
 
@@ -41,7 +41,7 @@ namespace BottomTimeDivesTests.Controllers {
 			const int divesPerPage = 5;
 			const string expectedResponseMessage = "The page number cannot be less than 1.";
 
-			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			using HttpResponseMessage response = await client.GetAsync($"dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
 			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
 
@@ -59,7 +59,7 @@ namespace BottomTimeDivesTests.Controllers {
 			const int divesPerPage = 0;
 			const string expectedResponseMessage = "The dives per page cannot be less than 1.";
 
-			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			using HttpResponseMessage response = await client.GetAsync($"dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
 			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
 
@@ -76,7 +76,7 @@ namespace BottomTimeDivesTests.Controllers {
 			const int pageNumber = 1;
 			const int divesPerPage = 100;
 
-			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			using HttpResponseMessage response = await client.GetAsync($"dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
 			List<Dive> deserializedContent = JsonConvert.DeserializeObject<List<Dive>>(responseContent);
 
@@ -95,7 +95,7 @@ namespace BottomTimeDivesTests.Controllers {
 			const int divesPerPage = 101;
 			const string expectedResponseMessage = "The dives per page cannot be greater than 100.";
 
-			using HttpResponseMessage response = await client.GetAsync($"api/dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
+			using HttpResponseMessage response = await client.GetAsync($"dives?pageNumber={pageNumber}&divesPerPage={divesPerPage}");
 			string responseContent = await response.Content.ReadAsStringAsync();
 			ApiExceptionMessage deserializedResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(responseContent);
 
@@ -112,7 +112,7 @@ namespace BottomTimeDivesTests.Controllers {
 			DivePost divePost = new MockDivePost();
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
 
-			using HttpResponseMessage response = await client.PostAsync("api/dives", diveContent);
+			using HttpResponseMessage response = await client.PostAsync("dives", diveContent);
 			string responseContent = await response.Content.ReadAsStringAsync();
 			Dive deserializedContent = JsonConvert.DeserializeObject<Dive>(responseContent);
 
@@ -122,7 +122,7 @@ namespace BottomTimeDivesTests.Controllers {
 			Assert.Equal(divePost.AvgDepth, deserializedContent.AvgDepth);
 
 			// Cleanup dive that was created to avoid bloating the size of ACC DB
-			await client.DeleteAsync($"api/dives/{deserializedContent.Id}");
+			await client.DeleteAsync($"dives/{deserializedContent.Id}");
 		}
 
 		[Fact]
@@ -136,7 +136,7 @@ namespace BottomTimeDivesTests.Controllers {
 			};
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
 
-			using HttpResponseMessage response = await client.PostAsync("api/dives", diveContent);
+			using HttpResponseMessage response = await client.PostAsync("dives", diveContent);
 
 			Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 		}
@@ -149,11 +149,11 @@ namespace BottomTimeDivesTests.Controllers {
 			using HttpClient client = application.CreateClient();
 			DivePost divePost = new MockDivePost();
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
-			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
+			using HttpResponseMessage postResponse = await client.PostAsync("dives", diveContent);
 			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
 			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
 
-			using HttpResponseMessage getResponse = await client.GetAsync($"api/dives/{deserializedPostResponseContent.Id}");
+			using HttpResponseMessage getResponse = await client.GetAsync($"dives/{deserializedPostResponseContent.Id}");
 			string getResponseContent = await getResponse.Content.ReadAsStringAsync();
 			Dive deserializedGetResponseContent = JsonConvert.DeserializeObject<Dive>(getResponseContent);
 
@@ -171,7 +171,7 @@ namespace BottomTimeDivesTests.Controllers {
 			using HttpClient client = application.CreateClient();
 			const int nonexistentId = 1; // The lowest ID number in ACC DB is 7, so this ID should never exist
 
-			using HttpResponseMessage response = await client.GetAsync($"api/dives/{nonexistentId}");
+			using HttpResponseMessage response = await client.GetAsync($"dives/{nonexistentId}");
 
 			Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 		}
@@ -184,14 +184,14 @@ namespace BottomTimeDivesTests.Controllers {
 			using HttpClient client = application.CreateClient();
 			DivePost divePost = new MockDivePost();
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
-			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
+			using HttpResponseMessage postResponse = await client.PostAsync("dives", diveContent);
 			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
 			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
 			deserializedPostResponseContent.Location += " updated";
 			using StringContent updateDiveContent = new(JsonConvert.SerializeObject(deserializedPostResponseContent), Encoding.UTF8, "application/json");
 
-			using HttpResponseMessage updateResponse = await client.PutAsync($"api/dives", updateDiveContent);
-			using HttpResponseMessage getResponse = await client.GetAsync($"api/dives/{deserializedPostResponseContent.Id}");
+			using HttpResponseMessage updateResponse = await client.PutAsync($"dives", updateDiveContent);
+			using HttpResponseMessage getResponse = await client.GetAsync($"dives/{deserializedPostResponseContent.Id}");
 			string getResponseContent = await getResponse.Content.ReadAsStringAsync();
 			Dive deserializedGetResponseContent = JsonConvert.DeserializeObject<Dive>(getResponseContent);
 
@@ -211,7 +211,7 @@ namespace BottomTimeDivesTests.Controllers {
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePut), Encoding.UTF8, "application/json");
 			const string expectedResponseMessage = "Dive number is too high. The maximum dive number is 10,000.";
 
-			using HttpResponseMessage putResponse = await client.PutAsync("api/dives", diveContent);
+			using HttpResponseMessage putResponse = await client.PutAsync("dives", diveContent);
 			string putResponseContent = await putResponse.Content.ReadAsStringAsync();
 			ApiExceptionMessage deserializedPutResponseContent = JsonConvert.DeserializeObject<ApiExceptionMessage>(putResponseContent);
 
@@ -227,11 +227,11 @@ namespace BottomTimeDivesTests.Controllers {
 			using HttpClient client = application.CreateClient();
 			DivePost divePost = new MockDivePost();
 			using StringContent diveContent = new(JsonConvert.SerializeObject(divePost), Encoding.UTF8, "application/json");
-			using HttpResponseMessage postResponse = await client.PostAsync("api/dives", diveContent);
+			using HttpResponseMessage postResponse = await client.PostAsync("dives", diveContent);
 			string postResponseContent = await postResponse.Content.ReadAsStringAsync();
 			Dive deserializedPostResponseContent = JsonConvert.DeserializeObject<Dive>(postResponseContent);
 
-			using HttpResponseMessage deleteResponse = await client.DeleteAsync($"api/dives/{deserializedPostResponseContent.Id}");
+			using HttpResponseMessage deleteResponse = await client.DeleteAsync($"dives/{deserializedPostResponseContent.Id}");
 			string deleteResponseContent = await deleteResponse.Content.ReadAsStringAsync();
 			Dive deserializedDeleteResponseContent = JsonConvert.DeserializeObject<Dive>(deleteResponseContent);
 
@@ -246,7 +246,7 @@ namespace BottomTimeDivesTests.Controllers {
 			using HttpClient client = application.CreateClient();
 			const int nonexistentId = 1; // The lowest ID number in ACC DB is 7, so this ID should never exist
 
-			using HttpResponseMessage response = await client.DeleteAsync($"api/dives/{nonexistentId}");
+			using HttpResponseMessage response = await client.DeleteAsync($"dives/{nonexistentId}");
 
 			Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 		}
