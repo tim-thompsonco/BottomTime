@@ -1,0 +1,14 @@
+ALTER TABLE dives
+DROP COLUMN IF EXISTS surface_interval_time;
+
+ALTER TABLE dives
+DROP COLUMN IF EXISTS bottom_time;
+
+ALTER TABLE dives
+DROP COLUMN IF EXISTS date;
+
+ALTER TABLE dives
+ADD COLUMN IF NOT EXISTS dive_start_time timestamp with time zone;
+
+ALTER TABLE dives
+ADD COLUMN IF NOT EXISTS dive_end_time timestamp with time zone;

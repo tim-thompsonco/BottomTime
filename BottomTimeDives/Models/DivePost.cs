@@ -9,8 +9,6 @@ namespace BottomTimeDives.Models {
 		[DefaultValue(100)]
 		public short Number { get; set; }
 		[Required]
-		public DateTime Date { get; set; }
-		[Required]
 		[MaxLength(50)]
 		[DefaultValue("Sample dive location")]
 		public string Location { get; set; }
@@ -18,6 +16,12 @@ namespace BottomTimeDives.Models {
 		[MaxLength(50)]
 		[DefaultValue("Sample dive site")]
 		public string DiveSite { get; set; }
+		[Required]
+		[DefaultValue("2021.12.30.08:00:00")]
+		public DateTime DiveStartTime { get; set; }
+		[Required]
+		[DefaultValue("2021.12.30.08:30:00")]
+		public DateTime DiveEndTime { get; set; }
 		[Required]
 		[DefaultValue(3000)]
 		public short StartAirPressure { get; set; }
@@ -40,10 +44,6 @@ namespace BottomTimeDives.Models {
 		public short MaxDepth { get; set; }
 		[DefaultValue(30)]
 		public short AvgDepth { get; set; }
-		[DefaultValue("01:05:00:00")]
-		public TimeSpan SurfaceIntervalTime { get; set; }
-		[DefaultValue("00:45:00")]
-		public TimeSpan BottomTime { get; set; }
 		[Required]
 		[DefaultValue("00:03:00")]
 		public TimeSpan SafetyStopTime { get; set; }
