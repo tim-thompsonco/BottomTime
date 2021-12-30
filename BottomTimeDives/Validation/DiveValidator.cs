@@ -6,6 +6,7 @@ namespace BottomTimeDives.Validation {
 		public static void ValidateDive(Dive dive) {
 			ValidateDiveDate(dive.DiveStartTime, nameof(dive.DiveStartTime));
 			ValidateDiveDate(dive.DiveEndTime, nameof(dive.DiveEndTime));
+			ValidateDiveStartAndEndTime(dive);
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
@@ -25,6 +26,12 @@ namespace BottomTimeDives.Validation {
 		private static void ValidateDiveDate(DateTime diveDate, string diveDateProperty) {
 			if (diveDate > DateTime.UtcNow) {
 				throw new InvalidOperationException($"Invalid {diveDateProperty}. Date cannot be a date in the future.");
+			}
+		}
+
+		private static void ValidateDiveStartAndEndTime(Dive dive) {
+			if (dive.DiveStartTime > dive.DiveEndTime) {
+				throw new InvalidOperationException($"Invalid dive start time. Dive start time cannot be after dive end time.");
 			}
 		}
 
