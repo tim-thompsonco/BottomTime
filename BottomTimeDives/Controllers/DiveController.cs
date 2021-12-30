@@ -31,7 +31,7 @@ namespace BottomTimeDives.Controllers {
 
 		// POST: dives
 		[HttpPost]
-		[ProducesResponseType(typeof(Dive), StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<ActionResult<Dive>> AddDiveAsync(DivePost divePost) {
 			Dive dive = _mapper.Map<Dive>(divePost);
@@ -45,7 +45,7 @@ namespace BottomTimeDives.Controllers {
 
 		// GET: dives/{id}
 		[HttpGet("{id}", Name = "GetDiveByDiveId")]
-		[ProducesResponseType(typeof(Dive), StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<ActionResult<Dive>> GetDiveByDiveIdAsync(int id) {
 			Dive dive = await _diveRepository.GetDiveByDiveIdAsync(id);
@@ -55,9 +55,9 @@ namespace BottomTimeDives.Controllers {
 
 		// PUT: dives
 		[HttpPut]
-		[ProducesResponseType(typeof(Dive), StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<ActionResult<Dive>> UpdateDiveAsync(Dive dive) {
+		public async Task<ActionResult<Dive>> UpdateDiveAsync([FromBody]Dive dive) {
 			DiveValidator.ValidateDive(dive);
 
 			await _diveRepository.UpdateDiveAsync(dive);

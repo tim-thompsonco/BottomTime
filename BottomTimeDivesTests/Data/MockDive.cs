@@ -7,9 +7,10 @@ namespace BottomTimeDivesTests.Data.MockData {
 		public MockDive() {
 			Id = 342;
 			Number = 79;
-			Date = new DateTime(2009, 7, 4, 15, 41, 0);
 			Location = "Anacapa; CA; USA";
 			DiveSite = "Underwater Island";
+			DiveStartTime = new DateTime(2021, 12, 30, 8, 0, 0, DateTimeKind.Utc);
+			DiveEndTime = new DateTime(2021, 12, 30, 8, 30, 0, DateTimeKind.Utc);
 			StartAirPressure = 2600;
 			EndAirPressure = 1000;
 			PressureType = PressureType.Psi;
@@ -17,8 +18,6 @@ namespace BottomTimeDivesTests.Data.MockData {
 			WetSuitThickness = 7;
 			MaxDepth = 51;
 			AvgDepth = 34;
-			SurfaceIntervalTime = new TimeSpan(1, 12, 0);
-			BottomTime = new TimeSpan(0, 39, 0);
 			SafetyStopTime = new TimeSpan(0, 3, 0);
 			WaterTemperature = 61;
 			TemperatureType = TemperatureType.Fahrenheit;
