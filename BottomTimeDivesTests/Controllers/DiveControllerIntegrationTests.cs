@@ -118,7 +118,8 @@ namespace BottomTimeDivesTests.Controllers {
 
 			Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 			Assert.Equal(divePost.Number, deserializedContent.Number);
-			Assert.Equal(divePost.BottomTime, deserializedContent.BottomTime);
+			Assert.Equal(divePost.DiveStartTime, deserializedContent.DiveStartTime);
+			Assert.Equal(divePost.DiveEndTime, deserializedContent.DiveEndTime);
 			Assert.Equal(divePost.AvgDepth, deserializedContent.AvgDepth);
 
 			// Cleanup dive that was created to avoid bloating the size of ACC DB
@@ -159,7 +160,8 @@ namespace BottomTimeDivesTests.Controllers {
 
 			Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
 			Assert.Equal(deserializedPostResponseContent.Number, deserializedGetResponseContent.Number);
-			Assert.Equal(deserializedPostResponseContent.BottomTime, deserializedGetResponseContent.BottomTime);
+			Assert.Equal(deserializedPostResponseContent.DiveStartTime, deserializedGetResponseContent.DiveStartTime);
+			Assert.Equal(deserializedPostResponseContent.DiveEndTime, deserializedGetResponseContent.DiveEndTime);
 			Assert.Equal(deserializedPostResponseContent.AvgDepth, deserializedGetResponseContent.AvgDepth);
 		}
 

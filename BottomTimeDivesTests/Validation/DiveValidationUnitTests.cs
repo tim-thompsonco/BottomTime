@@ -8,9 +8,9 @@ namespace BottomTimeDivesTests.Validation {
 	[TestClass]
 	public class DiveValidationUnitTests {
 		[TestMethod]
-		public void ValidateDiveSucceedsWhenDiveDateIsNowTest() {
+		public void ValidateDiveSucceedsWhenDiveStartTimeIsNowTest() {
 			Dive dive = new MockDive {
-				Date = DateTime.UtcNow
+				DiveStartTime = DateTime.UtcNow
 			};
 			Exception exception = null;
 
@@ -24,9 +24,9 @@ namespace BottomTimeDivesTests.Validation {
 		}
 
 		[TestMethod]
-		public void ValidateDiveSucceedsWhenDiveDateIsInPastTest() {
+		public void ValidateDiveSucceedsWhenDiveStartTimeIsInPastTest() {
 			Dive dive = new MockDive {
-				Date = DateTime.UtcNow.AddDays(-1)
+				DiveStartTime = DateTime.UtcNow.AddDays(-1)
 			};
 			Exception exception = null;
 
@@ -40,9 +40,9 @@ namespace BottomTimeDivesTests.Validation {
 		}
 
 		[TestMethod]
-		public void ValidateDiveFailsWhenDiveDateIsInFutureTest() {
+		public void ValidateDiveFailsWhenDiveStartTimeIsInFutureTest() {
 			Dive dive = new MockDive {
-				Date = DateTime.UtcNow.AddDays(1)
+				DiveStartTime = DateTime.UtcNow.AddDays(1)
 			};
 			Exception exception = null;
 
@@ -54,7 +54,7 @@ namespace BottomTimeDivesTests.Validation {
 
 			Assert.IsNotNull(exception);
 			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.AreEqual("Dive date cannot be a date in the future.", exception.Message);
+			Assert.AreEqual("Invalid DiveStartTime. Date cannot be a date in the future.", exception.Message);
 		}
 
 		[TestMethod]
@@ -687,7 +687,7 @@ namespace BottomTimeDivesTests.Validation {
 		[TestMethod]
 		public void ValidateDiveSucceedsWhenTimeSpanIsZeroTest() {
 			Dive dive = new MockDive {
-				SurfaceIntervalTime = new TimeSpan(0, 0, 0, 0)
+				SafetyStopTime = new TimeSpan(0, 0, 0)
 			};
 			Exception exception = null;
 
@@ -698,80 +698,12 @@ namespace BottomTimeDivesTests.Validation {
 			}
 
 			Assert.IsNull(exception);
-		}
-
-		[TestMethod]
-		public void ValidateDiveSucceedsWhenSurfaceIntervalTimeIsValidTest() {
-			Dive dive = new MockDive {
-				SurfaceIntervalTime = new TimeSpan(1, 0, 0, 0)
-			};
-			Exception exception = null;
-
-			try {
-				DiveValidator.ValidateDive(dive);
-			} catch (Exception ex) {
-				exception = ex;
-			}
-
-			Assert.IsNull(exception);
-		}
-
-		[TestMethod]
-		public void ValidateDiveFailsWhenSurfaceIntervalTimeIsNotValidTest() {
-			Dive dive = new MockDive {
-				SurfaceIntervalTime = new TimeSpan(-1, 0, 0, 0)
-			};
-			Exception exception = null;
-
-			try {
-				DiveValidator.ValidateDive(dive);
-			} catch (Exception ex) {
-				exception = ex;
-			}
-
-			Assert.IsNotNull(exception);
-			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.AreEqual("Invalid SurfaceIntervalTime value. Days cannot be negative.", exception.Message);
-		}
-
-		[TestMethod]
-		public void ValidateDiveSucceedsWhenBottomTimeIsValidTest() {
-			Dive dive = new MockDive {
-				BottomTime = new TimeSpan(0, 1, 0, 0)
-			};
-			Exception exception = null;
-
-			try {
-				DiveValidator.ValidateDive(dive);
-			} catch (Exception ex) {
-				exception = ex;
-			}
-
-			Assert.IsNull(exception);
-		}
-
-		[TestMethod]
-		public void ValidateDiveFailsWhenBottomTimeIsNotValidTest() {
-			Dive dive = new MockDive {
-				BottomTime = new TimeSpan(0, -1, 0, 0)
-			};
-			Exception exception = null;
-
-			try {
-				DiveValidator.ValidateDive(dive);
-			} catch (Exception ex) {
-				exception = ex;
-			}
-
-			Assert.IsNotNull(exception);
-			Assert.IsTrue(exception is InvalidOperationException);
-			Assert.AreEqual("Invalid BottomTime value. Hours cannot be negative.", exception.Message);
 		}
 
 		[TestMethod]
 		public void ValidateDiveSucceedsWhenSafetyStopTimeIsValidTest() {
 			Dive dive = new MockDive {
-				SafetyStopTime = new TimeSpan(0, 0, 3, 0)
+				SafetyStopTime = new TimeSpan(0, 3, 0)
 			};
 			Exception exception = null;
 
@@ -787,7 +719,7 @@ namespace BottomTimeDivesTests.Validation {
 		[TestMethod]
 		public void ValidateDiveFailsWhenSafetyStopTimeIsNotValidTest() {
 			Dive dive = new MockDive {
-				SafetyStopTime = new TimeSpan(0, 0, -3, 0)
+				SafetyStopTime = new TimeSpan(0, -3, 0)
 			};
 			Exception exception = null;
 

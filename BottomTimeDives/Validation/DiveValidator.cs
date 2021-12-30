@@ -4,14 +4,13 @@ using System;
 namespace BottomTimeDives.Validation {
 	public class DiveValidator {
 		public static void ValidateDive(Dive dive) {
-			ValidateDiveDate(dive);
+			ValidateDiveDate(dive.DiveStartTime, nameof(dive.DiveStartTime));
+			ValidateDiveDate(dive.DiveEndTime, nameof(dive.DiveEndTime));
 			ValidateDiveNumber(dive);
 			ValidateDiveStartAirPressure(dive);
 			ValidateDiveEndAirPressure(dive);
 			ValidateDiveMaxDepth(dive);
 			ValidateDiveAvgDepth(dive);
-			ValidateDiveTimeSpan(dive.SurfaceIntervalTime, nameof(dive.SurfaceIntervalTime));
-			ValidateDiveTimeSpan(dive.BottomTime, nameof(dive.BottomTime));
 			ValidateDiveTimeSpan(dive.SafetyStopTime, nameof(dive.SafetyStopTime));
 			ValidateDiveTimeSpan(dive.ResidualNitrogenTime, nameof(dive.ResidualNitrogenTime));
 			ValidateDiveTimeSpan(dive.AbsoluteBottomTime, nameof(dive.AbsoluteBottomTime));
@@ -23,9 +22,9 @@ namespace BottomTimeDives.Validation {
 			ValidateDivePropertyIsNotNegative(dive.TankSize, nameof(dive.TankSize));
 		}
 
-		private static void ValidateDiveDate(Dive dive) {
-			if (dive.Date > DateTime.UtcNow) {
-				throw new InvalidOperationException("Dive date cannot be a date in the future.");
+		private static void ValidateDiveDate(DateTime diveDate, string diveDateProperty) {
+			if (diveDate > DateTime.UtcNow) {
+				throw new InvalidOperationException($"Invalid {diveDateProperty}. Date cannot be a date in the future.");
 			}
 		}
 
