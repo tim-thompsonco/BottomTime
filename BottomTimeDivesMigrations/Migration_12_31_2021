@@ -1,0 +1,2 @@
+ALTER TABLE dives
+ALTER COLUMN pressure_group_end TYPE char(1);
