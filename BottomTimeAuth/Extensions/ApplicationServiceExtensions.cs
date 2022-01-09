@@ -1,5 +1,4 @@
 ﻿using BottomTimeAuth.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,10 +14,6 @@ namespace BottomTimeAuth.Extensions {
 				string connString = Environment.GetEnvironmentVariable("DATABASE_DOTNET_URL") ?? config["DATABASE_DOTNET_URL"];
 				options.UseNpgsql(connString);
 			});
-			services.AddDatabaseDeveloperPageExceptionFilter();
-			services
-				.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-				.AddEntityFrameworkStores<DataContext>();
 
 			services.AddControllers()
 				.AddNewtonsoftJson(options => {

@@ -30,9 +30,7 @@ namespace BottomTimeAuth.Controllers {
 				return BadRequest("Username is taken.");
 			}
 
-			AppUser user = _mapper.Map<AppUser>(registerDto);
-
-			user.UserName = registerDto.UserName.ToLower();
+			AppUser user = new AppUser { UserName = registerDto.UserName.ToLower() };
 
 			IdentityResult result = await _userManager.CreateAsync(user, registerDto.Password);
 
